@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=16 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_h8tf1"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="9_jbibu"]
 [ext_resource type="Script" path="res://Scripts/input_controller.gd" id="9_uym70"]
 [ext_resource type="Script" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
+[ext_resource type="PackedScene" uid="uid://sdnwbdv48v6n" path="res://Scenes/drone.tscn" id="11_eo2h2"]
 
 [sub_resource type="Curve3D" id="Curve3D_4sx3n"]
 _data = {
@@ -29,12 +30,14 @@ script = ExtResource("8_36r1k")
 cull_mask = 1048575
 h_offset = 0.0
 v_offset = 0.0
-projection = 0
+projection = 1
 fov = 75.0
-size = 1.0
+size = 7.0
 frustum_offset = Vector2(0, 0)
 near = 0.05
 far = 4000.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_p5sc6"]
 
 [node name="World" type="Node3D"]
 
@@ -81,8 +84,16 @@ camera_3d_resource = SubResource("Resource_vn6nm")
 transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, 0.607057, 4.6962, 5.661)
 script = ExtResource("10_f7nh5")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MainLoop"]
+transform = Transform3D(12.6027, 5.67405, -0.0819878, 0, 7.56162, 0.127461, 12.1733, -5.87422, 0.0848801, 2.20284, -0.377818, 2.28205)
+visible = false
+mesh = SubResource("BoxMesh_p5sc6")
+skeleton = NodePath("../Camera3D")
+
 [node name="Camera3D" type="Camera3D" parent="MainLoop"]
 transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, -1.06097, 4.6962, 5.661)
+projection = 1
+size = 7.0
 
 [node name="PhantomCameraHost" type="Node" parent="MainLoop/Camera3D"]
 script = ExtResource("9_jbibu")
@@ -100,3 +111,30 @@ script = ExtResource("9_uym70")
 [node name="MoveCooldown" type="Timer" parent="MainLoop"]
 wait_time = 0.2
 one_shot = true
+
+[node name="road_exp_1" parent="." instance=ExtResource("2_kpmdb")]
+visible = false
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(-0.0662043, 0, -0.997806, 0, 1, 0, 0.997806, 0, -0.0662043, 5.924, 1.94742, 4.79988)
+
+[node name="Drone" parent="Node3D" instance=ExtResource("11_eo2h2")]
+transform = Transform3D(0.579999, 0, -2.23517e-08, 0, 0.58, 0, 2.23517e-08, 0, 0.579999, 0, 0, 0)
+
+[node name="Node3D3" type="Node3D" parent="."]
+transform = Transform3D(0.400237, 0, -0.916412, 0, 1, 0, 0.916412, 0, 0.400237, 5.36986, 1.94742, 2.94308)
+
+[node name="Drone" parent="Node3D3" instance=ExtResource("11_eo2h2")]
+transform = Transform3D(0.579999, 0, -2.23517e-08, 0, 0.58, 0, 2.23517e-08, 0, 0.579999, 0, 0, 0)
+
+[node name="Node3D4" type="Node3D" parent="."]
+transform = Transform3D(0.499501, 0, -0.866313, 0, 1, 0, 0.866313, 0, 0.499501, 3.8854, 1.60263, 1.64026)
+
+[node name="Drone" parent="Node3D4" instance=ExtResource("11_eo2h2")]
+transform = Transform3D(0.579999, 0, -2.23517e-08, 0, 0.58, 0, 2.23517e-08, 0, 0.579999, 0, 0, 0)
+
+[node name="Node3D2" type="Node3D" parent="."]
+transform = Transform3D(-0.261684, 0, -0.965154, 0, 1, 0, 0.965154, 0, -0.261684, 5.33502, 1.75638, 6.69809)
+
+[node name="Drone" parent="Node3D2" instance=ExtResource("11_eo2h2")]
+transform = Transform3D(0.579999, 0, -2.23517e-08, 0, 0.58, 0, 2.23517e-08, 0, 0.579999, 0, 0, 0)

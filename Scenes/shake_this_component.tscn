@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpdop004av8ef"]
+
+[ext_resource type="Script" path="res://Scripts/shake_this_component.gd" id="1_ntxub"]
+
+[node name="ShakeThisComponent" type="Node3D"]
+script = ExtResource("1_ntxub")

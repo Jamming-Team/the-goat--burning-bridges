@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bpahflfp1utm2"]
+
+[ext_resource type="Shader" path="res://Shaders/obstacle_object1.gdshader" id="1_xg1rp"]
+
+[resource]
+render_priority = -1
+shader = ExtResource("1_xg1rp")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/wire_color = Color(0, 0, 0, 1)
+shader_parameter/wire_width = 5.0
+shader_parameter/wire_smoothness = 0.0

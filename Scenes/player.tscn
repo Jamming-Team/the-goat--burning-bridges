@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dupcr16kxrewr"]
+
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_ik2ko"]
+[ext_resource type="PackedScene" uid="uid://b5xgclofy1bs1" path="res://Scenes/hitbox_component.tscn" id="2_pvyo5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yakoh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1whki"]
+
+[node name="Player" type="Node3D" node_paths=PackedStringArray("player_graphics")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_ik2ko")
+player_graphics = NodePath("Graphics")
+
+[node name="Graphics" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.952716, 0)
+mesh = SubResource("CapsuleMesh_yakoh")
+skeleton = NodePath("../..")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_pvyo5")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.930474, 0)
+shape = SubResource("CapsuleShape3D_1whki")

@@ -9,6 +9,7 @@ func _ready():
 	#pass
 	await _appear()
 	$ShakeThisComponent.start()
+	print_debug("_free_drone_slots_array.size() DRONE READY: " + self.name)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

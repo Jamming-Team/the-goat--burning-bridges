@@ -2,12 +2,12 @@ extends Node3D
 
 @export var obstacle_placer : ObstaclePlacer
 @export var road_maker : RoadMaker
-
 @export var road_scene : PackedScene
 @export var road_speed : float = 2.0
 @export var roads_array : Array
-
 @export var player_scene : PackedScene
+@export var drone_slots : Node3D
+@export var drone_scene : PackedScene
 
 var queue = []
 var max_queue_size = 10
@@ -20,7 +20,9 @@ var _player : Node3D
 var _tween : Tween
 var _physical_layers = []
 var _cur_player_position_type : Constants.PositionType
+var _free_drone_slots_array : Array
 
+@onready var spawn_drone_timer : Timer = $SpawnDroneTimer
 @onready var _roads_structure : Node3D = $RoadsStructure
 @onready var _input_controller : InputController = %InputController
 @onready var _move_cooldown_timer : Timer = $MoveCooldown
@@ -51,10 +53,12 @@ func _ready():
 	_cur_player_position_type = Constants.PositionType.MIDDLE
 	_initial_player_y = _player.position.y
 	_input_controller.jump_pressed.connect(process_jump)
+	
+	for drone_slot in drone_slots.get_children():
+		_free_drone_slots_array.append(drone_slot)
 
 
 var move_for_value : float
-
 
 func _process(delta):
 	if (_cur_road_remaining_length > 0.0):
@@ -66,6 +70,8 @@ func _process(delta):
 	else:
 		do_update_structure()
 		_cur_road_remaining_length = (queue[_cur_road_ind] as RoadPiece).road_length + _cur_road_remaining_length
+	
+
 
 @export var jump_height : float = 2
 @export var jump_length : float = 4
@@ -154,4 +160,19 @@ func do_update_structure():
 	#(road_instance.obstacle_placer as ObstaclePlacer).place_obstacles(road_instance.cells_matrix, road_instance.road_width, road_instance.road_length_in_cells)
 	add_to_queue(road_instance)
 
+
+
+
+func _on_spawn_drone_timer_timeout():
+	var new_waiting_time = randf_range(2, 3)
+	spawn_drone_timer.wait_time = new_waiting_time
+	spawn_drone_timer.start()
+	
+	if (_free_drone_slots_array.size() == 0):
+		return
+	
+	print_debug("_free_drone_slots_array.size(): " + str(_free_drone_slots_array.size()))
+	var rand_drone_slot = _free_drone_slots_array[randi_range(0,_free_drone_slots_array.size() - 1)] as DroneSlot
+	rand_drone_slot.spawn_drone(drone_scene)
+	_free_drone_slots_array.erase(rand_drone_slot)
 

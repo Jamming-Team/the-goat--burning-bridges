@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=19 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_h8tf1"]
@@ -10,7 +10,9 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="9_jbibu"]
 [ext_resource type="Script" path="res://Scripts/input_controller.gd" id="9_uym70"]
 [ext_resource type="Script" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
+[ext_resource type="PackedScene" uid="uid://dh8hd7v6g3ngb" path="res://Scenes/drone_slot.tscn" id="11_aeskm"]
 [ext_resource type="PackedScene" uid="uid://sdnwbdv48v6n" path="res://Scenes/drone.tscn" id="11_eo2h2"]
+[ext_resource type="Shader" path="res://Scripts/pixelTest.gdshader" id="12_187ri"]
 
 [sub_resource type="Curve3D" id="Curve3D_4sx3n"]
 _data = {
@@ -39,14 +41,21 @@ far = 4000.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_p5sc6"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k7l5f"]
+shader = ExtResource("12_187ri")
+shader_parameter/x_pixel_size = null
+shader_parameter/y_pixel_size = null
+
 [node name="World" type="Node3D"]
 
-[node name="MainLoop" type="Node3D" parent="."]
+[node name="MainLoop" type="Node3D" parent="." node_paths=PackedStringArray("drone_slots")]
 unique_name_in_owner = true
 script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
 road_speed = 10.0
 player_scene = ExtResource("3_w7hke")
+drone_slots = NodePath("../DroneSlotes")
+drone_scene = ExtResource("11_eo2h2")
 
 [node name="Path3D3" type="Path3D" parent="MainLoop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)
@@ -112,29 +121,37 @@ script = ExtResource("9_uym70")
 wait_time = 0.2
 one_shot = true
 
+[node name="SpawnDroneTimer" type="Timer" parent="MainLoop"]
+wait_time = 2.0
+autostart = true
+
+[node name="DroneSlotes" type="Node3D" parent="."]
+
+[node name="DroneSlot" parent="DroneSlotes" instance=ExtResource("11_aeskm")]
+transform = Transform3D(0.499501, 0, -0.866313, 0, 1, 0, 0.866313, 0, 0.499501, 4.17682, 1.60263, 1.48241)
+
+[node name="DroneSlot2" parent="DroneSlotes" instance=ExtResource("11_aeskm")]
+transform = Transform3D(0.400237, 0, -0.916412, 0, 1, 0, 0.916412, 0, 0.400237, 5.36986, 1.94742, 2.94308)
+
+[node name="DroneSlot3" parent="DroneSlotes" instance=ExtResource("11_aeskm")]
+transform = Transform3D(-0.0662043, 0, -0.997806, 0, 1, 0, 0.997806, 0, -0.0662043, 5.924, 1.94742, 4.79988)
+
+[node name="DroneSlot4" parent="DroneSlotes" instance=ExtResource("11_aeskm")]
+transform = Transform3D(-0.261684, 0, -0.965154, 0, 1, 0, 0.965154, 0, -0.261684, 5.33502, 1.75638, 6.69809)
+
 [node name="road_exp_1" parent="." instance=ExtResource("2_kpmdb")]
 visible = false
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(-0.0662043, 0, -0.997806, 0, 1, 0, 0.997806, 0, -0.0662043, 5.924, 1.94742, 4.79988)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+follow_viewport_enabled = true
 
-[node name="Drone" parent="Node3D" instance=ExtResource("11_eo2h2")]
-transform = Transform3D(0.579999, 0, -2.23517e-08, 0, 0.58, 0, 2.23517e-08, 0, 0.579999, 0, 0, 0)
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_k7l5f")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Node3D3" type="Node3D" parent="."]
-transform = Transform3D(0.400237, 0, -0.916412, 0, 1, 0, 0.916412, 0, 0.400237, 5.36986, 1.94742, 2.94308)
-
-[node name="Drone" parent="Node3D3" instance=ExtResource("11_eo2h2")]
-transform = Transform3D(0.579999, 0, -2.98023e-08, 0, 0.58, 0, 2.98023e-08, 0, 0.579999, 0, 0, 0)
-
-[node name="Node3D4" type="Node3D" parent="."]
-transform = Transform3D(0.499501, 0, -0.866313, 0, 1, 0, 0.866313, 0, 0.499501, 3.8854, 1.60263, 1.64026)
-
-[node name="Drone" parent="Node3D4" instance=ExtResource("11_eo2h2")]
-transform = Transform3D(0.579999, 0, -2.23517e-08, 0, 0.58, 0, 2.23517e-08, 0, 0.579999, 0, 0, 0)
-
-[node name="Node3D2" type="Node3D" parent="."]
-transform = Transform3D(-0.261684, 0, -0.965154, 0, 1, 0, 0.965154, 0, -0.261684, 5.33502, 1.75638, 6.69809)
-
-[node name="Drone" parent="Node3D2" instance=ExtResource("11_eo2h2")]
-transform = Transform3D(0.579999, 0, -2.23517e-08, 0, 0.58, 0, 2.23517e-08, 0, 0.579999, 0, 0, 0)
+[connection signal="timeout" from="MainLoop/SpawnDroneTimer" to="MainLoop" method="_on_spawn_drone_timer_timeout"]

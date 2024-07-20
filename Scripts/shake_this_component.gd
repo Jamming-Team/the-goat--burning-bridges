@@ -32,7 +32,7 @@ func _process(delta):
 		var rand_y = (randf() * 2 - 1)
 		var rand_z = (randf() * 2 - 1) /3
 		_movement_vector = Vector3(rand_x, rand_y, rand_z).normalized()
-		_target_position = _initial_position + max_position_change * _movement_vector
+		_target_position = _initial_position + max_position_change * 1 * _movement_vector
 		var mark_change = lerp(-max_angle_change, max_angle_change, inverse_lerp(-1, 1, -rand_x))
 		_target_rotation = Vector3(0, 0, mark_change)
 		t = 0.0

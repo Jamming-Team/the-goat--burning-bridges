@@ -9,7 +9,7 @@ extends Node
 @onready var current : float = max_value:
 	set(value):
 		current = clamp(value, 0, max_value)
-		SharedVariables.health_changed.emit(current)
+		GameSignals.health_changed.emit(current)
 
 	
 

@@ -60,7 +60,12 @@ script = ExtResource("10_tx1dd")
 _max_jump_height = 1.5
 _gravity = 20.0
 _max_jump_time = 0.7
+_threshold_for_second_move = 0.2
 metadata/_custom_type_script = "uid://c7hxk5cuty7mg"
+
+[node name="MoveCooldown" type="Timer" parent="MovementComponent"]
+wait_time = 0.1
+one_shot = true
 
 [node name="InputComponent" type="Node" parent="."]
 script = ExtResource("11_gymyn")

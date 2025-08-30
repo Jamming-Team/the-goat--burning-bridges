@@ -10,6 +10,7 @@ var is_grounded : bool:
 
 var initial_player_y : float
 var cur_player_position_type : Constants.PositionType
+var cur_row_ind : int
 
 
 @onready var health_component : HealthComponent = $HealthComponent

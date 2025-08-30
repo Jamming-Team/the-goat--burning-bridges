@@ -15,7 +15,7 @@ var min_behind : int = 2
 var _front_position : float
 var _cur_road_ind : int
 var _cur_road_remaining_length : float
-var _cur_row_ind : int
+#var _cur_row_ind : int
 var _player : PlayerController
 #var _tween : Tween
 var _physical_layers = []
@@ -41,9 +41,9 @@ func finish_queue_front():
 func _ready():
 	#print (road_maker.road_width)
 	#obstacle_placer.place_obstacles(road_maker._cells_matrix, road_maker.road_width, road_maker.road_length)
-	init_road()
 	_player = player_scene.instantiate() as Node3D
-	_player.position = Vector3(0, 0, (queue[_cur_road_ind] as RoadPiece).get_current_row_coords(_cur_row_ind))
+	init_road()
+	_player.position = Vector3(0, 0, (queue[_cur_road_ind] as RoadPiece).get_current_row_coords(_player.cur_row_ind))
 	add_child(_player)
 	_player.add_to_group("Player")
 	print(_player.get_groups())
@@ -99,7 +99,7 @@ func init_road():
 		_front_position += -move_for_length
 		_cur_road_ind += 1
 	_cur_road_remaining_length = 0.0
-	_cur_row_ind = (queue[_cur_road_ind] as RoadPiece).road_width / 2
+	_player.cur_row_ind = (queue[_cur_road_ind] as RoadPiece).road_width / 2
 
 func do_update_structure():
 	finish_queue_front()
@@ -111,6 +111,7 @@ func do_update_structure():
 	#print_debug((road_instance.cells_matrix[Vector2(1,1)] as Cell).position)
 	#(road_instance.obstacle_placer as ObstaclePlacer).place_obstacles(road_instance.cells_matrix, road_instance.road_width, road_instance.road_length_in_cells)
 	add_to_queue(road_instance)
+	GameSignals.current_road_changed.emit(cur_road)
 
 
 

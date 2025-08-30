@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 Constants="*res://Scripts/Core/constants.gd"
-SharedVariables="*res://Scripts/Core/shared_variables.gd"
+GameSignals="*res://Scripts/Core/game_signals.gd"
 
 [editor_plugins]
 

@@ -5,24 +5,38 @@ extends Node
 #@export var _max_jumo_velocity : float = 2
 @export var _gravity : float = 2
 @export var _max_jump_time : float = 2
+@export var _threshold_for_second_move : float = 0.1
 
-#@onready var _move_cooldown_timer : Timer = $MoveCooldown
+@onready var _move_cooldown_timer : Timer = $MoveCooldown
+@onready var _move_pressed_time : float = 0
 #@onready var _pre_jump_timer : Timer = $PreJumpTimer
 
 var _player : PlayerController
 var _input_component : InputComponent
 var _jump_is_pressed : bool
+var _move_is_pressed : bool
+var _first_move_fired : bool
 #var _y_velocity : float
 var _y_velocity_tween : Tween
+var cur_road : RoadPiece
+
+
 
 func init(player : PlayerController, input_component : InputComponent):
 	_player = player
 	_input_component = input_component 
 	
-	_input_component.jump_pressed.connect(_process_jump)
+	_input_component.jump_pressed.connect(_process_jump_press)
 	_player.cur_player_position_type = Constants.PositionType.MIDDLE
+	GameSignals.current_road_changed.connect(func(x): cur_road = x)
+	
+	_input_component.movement_pressed.connect(_process_move_press)
 
-
+func _process_move_press(pressed: bool):
+	_move_is_pressed = pressed
+	if (not pressed):
+		_move_pressed_time = 0
+		_first_move_fired = false
 
 #func _ready() -> void:
 	#_input_component.jump_pressed.connect(_process_jump)
@@ -30,7 +44,7 @@ func init(player : PlayerController, input_component : InputComponent):
 	#_y_velocity_tween.tween_property(_player, "position:y", _max_jump_height, _max_jump_time).from(_player._initial_player_y)
 	#_y_velocity_tween.stop()
 
-func _process_jump(pressed : bool):
+func _process_jump_press(pressed : bool):
 	_jump_is_pressed = pressed
 	
 	#if (pressed == false):
@@ -47,7 +61,11 @@ func _process_jump(pressed : bool):
 	
 
 func _process(delta: float) -> void:
+	if (_move_is_pressed):
+		_move_pressed_time += delta
+	
 	_process_y(delta)
+	_process_z(delta)
 	
 	
 func _process_y(delta: float) ->  void:
@@ -65,23 +83,26 @@ func _process_y(delta: float) ->  void:
 		
 		
 
-#func _process_x(delta: float) -> void:
-	#var cur_side_mov_dir: int = _input_component.side_movement
-	#if (cur_side_mov_dir != 0 && _move_cooldown_timer.is_stopped()):
+func _process_z(delta: float) -> void:
+	var cur_side_mov_dir: int = _input_component.side_movement
+	#if (cur_side_mov_dir != 0):
+		
+	if (cur_side_mov_dir != 0 && _move_cooldown_timer.is_stopped() and cur_road and (not _first_move_fired or _move_pressed_time >_threshold_for_second_move)):
 		##print(str(cur_side_mov_dir) + str((queue[_cur_road_ind] as RoadPiece).road_width - 1) + " " + str(_cur_row_ind + cur_side_mov_dir))
-		#_cur_row_ind = clampi(_cur_row_ind + cur_side_mov_dir, 0, (queue[_cur_road_ind] as RoadPiece).road_width - 1)
+		_player.cur_row_ind = clampi(_player.cur_row_ind + cur_side_mov_dir, 0, cur_road.road_width - 1)
 		##var a = clampi(_cur_row_ind + cur_side_mov_dir, 0, (queue[_cur_road_ind] as RoadPiece).road_width - 1)
-		#var new_row_coords = (queue[_cur_road_ind] as RoadPiece).get_current_row_coords(_cur_row_ind)
+		var new_row_coords = cur_road.get_current_row_coords(_player.cur_row_ind)
 		##print("row ind: " + str(_cur_row_ind) + ", row coords: " + str(new_row_coords))
 		##print("road ind: " + str(_cur_road_ind))
-		#var tween: Tween = create_tween()
-		#tween.tween_method(func(x): _player.position.z = x, _player.position.z, new_row_coords + 0.2 * cur_side_mov_dir, 0.1)
-		#tween.tween_method(func(x): _player.position.z = x, new_row_coords + 0.2 * cur_side_mov_dir, new_row_coords, 0.05)
+		var tween: Tween = create_tween()
+		tween.tween_method(func(x): _player.position.z = x, _player.position.z, new_row_coords + 0.2 * cur_side_mov_dir, 0.1)
+		tween.tween_method(func(x): _player.position.z = x, new_row_coords + 0.2 * cur_side_mov_dir, new_row_coords, 0.05)
 		##		tween.tween_property(_player, "position.x", new_row_coords + 0.2 * cur_side_mov_dir, 0.1)
 		##		tween.tween_property(_player, "position.x", new_row_coords, 0.05)
 		##tween.interpolate_value(_player.position, Vector3(0, 0, new_row_coords - _player.position.z), 0, 0.2, Tween.TRANS_BOUNCE, Tween.EASE_OUT_IN)
 		##_player.position = Vector3(0, 0, new_row_coords)
-		#_move_cooldown_timer.start()
+		_move_cooldown_timer.start()
+		_first_move_fired = true
 
 #@export var jump_height : float = 2
 #@export var jump_length : float = 4

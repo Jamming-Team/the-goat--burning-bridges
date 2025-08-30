@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=12 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_h8tf1"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
 [ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
+[ext_resource type="Script" uid="uid://dp1g8dr43grc6" path="res://Scripts/health.gd" id="7_k7acu"]
 [ext_resource type="Script" uid="uid://b6648uqsw23yw" path="res://Scripts/input_controller.gd" id="9_uym70"]
 [ext_resource type="Script" uid="uid://cpyb1usx3trmf" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
 [ext_resource type="Shader" uid="uid://c4un4cjrb2g0b" path="res://Scripts/pixelTest.gdshader" id="12_187ri"]
@@ -93,6 +94,10 @@ autostart = true
 
 [node name="PreJumpTimer" type="Timer" parent="MainLoop"]
 one_shot = true
+
+[node name="Health" type="Node" parent="MainLoop"]
+script = ExtResource("7_k7acu")
+metadata/_custom_type_script = "uid://dp1g8dr43grc6"
 
 [node name="road_exp_1" parent="." instance=ExtResource("2_kpmdb")]
 visible = false

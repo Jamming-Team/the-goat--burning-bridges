@@ -37,13 +37,13 @@ func get_current_row_coords(row_ind : int) -> float:
 
 func set_current_obstacle(new_obstacle : ObstacleObject):
 	current_obstacle = new_obstacle
-	print("this road: " + str(self))
-	print("current obstacle: " + str(current_obstacle))
+#	print("this road: " + str(self))
+#	print("current obstacle: " + str(current_obstacle))
 
 func destroy_current_obstacle():
-	print(_obstacles_array.size())
+#	print(_obstacles_array.size())
 	current_obstacle.player_affected_obstacle.disconnect(set_current_obstacle)
 	_obstacles_array.erase(current_obstacle)
-	print(_obstacles_array.size())
+#	print(_obstacles_array.size())
 	current_obstacle.queue_free()
 	current_obstacle = null

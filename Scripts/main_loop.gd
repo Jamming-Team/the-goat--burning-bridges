@@ -27,6 +27,7 @@ var _cur_player_position_type : Constants.PositionType
 @onready var _input_controller : InputController = %InputController
 @onready var _move_cooldown_timer : Timer = $MoveCooldown
 @onready var _pre_jump_timer : Timer = $PreJumpTimer
+@onready var _health : Health = $Health
 
 
 # Add an item to the queue if it has not reached its maximum capacity
@@ -104,12 +105,12 @@ func process_jump(call_type : int = 0):
 func _physics_process(delta):
 	var cur_side_mov_dir = _input_controller.side_movement
 	if (cur_side_mov_dir != 0 && _move_cooldown_timer.is_stopped()):
-		print(str(cur_side_mov_dir) + str((queue[_cur_road_ind] as RoadPiece).road_width - 1) + " " + str(_cur_row_ind + cur_side_mov_dir))
+		#print(str(cur_side_mov_dir) + str((queue[_cur_road_ind] as RoadPiece).road_width - 1) + " " + str(_cur_row_ind + cur_side_mov_dir))
 		_cur_row_ind = clampi(_cur_row_ind + cur_side_mov_dir, 0, (queue[_cur_road_ind] as RoadPiece).road_width - 1)
 		#var a = clampi(_cur_row_ind + cur_side_mov_dir, 0, (queue[_cur_road_ind] as RoadPiece).road_width - 1)
 		var new_row_coords = (queue[_cur_road_ind] as RoadPiece).get_current_row_coords(_cur_row_ind)
-		print("row ind: " + str(_cur_row_ind) + ", row coords: " + str(new_row_coords))
-		print("road ind: " + str(_cur_road_ind))
+		#print("row ind: " + str(_cur_row_ind) + ", row coords: " + str(new_row_coords))
+		#print("road ind: " + str(_cur_road_ind))
 		var tween: Tween = create_tween()
 		tween.tween_method(func(x): _player.position.z = x, _player.position.z, new_row_coords + 0.2 * cur_side_mov_dir, 0.1)
 		tween.tween_method(func(x): _player.position.z = x, new_row_coords + 0.2 * cur_side_mov_dir, new_row_coords, 0.05)
@@ -133,6 +134,8 @@ func _physics_process(delta):
 	
 	if (queue[_cur_road_ind-1] as RoadPiece).current_obstacle != null && _cur_player_position_type == (queue[_cur_road_ind-1] as RoadPiece).current_obstacle.position_type:
 		(queue[_cur_road_ind-1] as RoadPiece).destroy_current_obstacle()
+		_health.take_hit_damage()
+		
 
 
 func init_road():

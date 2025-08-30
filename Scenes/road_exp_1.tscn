@@ -340,6 +340,7 @@ coords = Vector2(4, 12)
 
 [node name="ObstaclePlacer" type="Node3D" parent="."]
 script = ExtResource("3_rqas5")
+max_count_obstacles = 30
 
 [node name="T_RoadMaker" type="Node3D" parent="." node_paths=PackedStringArray("parent")]
 script = ExtResource("4_yu87f")

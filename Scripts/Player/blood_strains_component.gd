@@ -16,7 +16,7 @@ func _spawn_stain():
 	if (not _raycast.is_colliding()):
 		return
 
-	print_debug(_raycast.get_collision_point())
+	#print_debug(_raycast.get_collision_point())
 
 	var decal: Decal = _decal_scene.instantiate() as Decal
 	decal.texture_albedo = _blood_stain_sprites[randi() % _blood_stain_sprites.size()]

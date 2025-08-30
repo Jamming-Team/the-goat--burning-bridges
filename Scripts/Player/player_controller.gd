@@ -6,16 +6,19 @@ extends Node3D
 
 var is_grounded : bool:
 	get:
-		return position.y == _initial_player_y
+		return position.y == initial_player_y
 
-var _initial_player_y : float
+var initial_player_y : float
+var cur_player_position_type : Constants.PositionType
+
 
 @onready var health_component : HealthComponent = $HealthComponent
 @onready var movement_component : MovementComponent = $MovementComponent
 @onready var input_component : InputComponent = $InputComponent
 
+
 func _ready() -> void:
-	_initial_player_y = position.y
+	initial_player_y = position.y
 	movement_component.init(self, input_component)
 
 #func _process(__delta: float) -> void:

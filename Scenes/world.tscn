@@ -30,7 +30,7 @@ shader_parameter/y_pixel_size = 0
 unique_name_in_owner = true
 script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
-road_speed = 10.0
+road_speed = 7.0
 player_scene = ExtResource("3_w7hke")
 
 [node name="Path3D3" type="Path3D" parent="MainLoop"]
@@ -65,6 +65,7 @@ skeleton = NodePath("../Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="MainLoop"]
 transform = Transform3D(0.71934, 0.509692, -0.47198, 0, 0.679441, 0.73373, 0.694658, -0.527801, 0.488749, -1.061, 4.696, 5.661)
+fov = 70.0
 size = 7.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="MainLoop"]

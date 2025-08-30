@@ -25,4 +25,5 @@ surface_material_override/0 = ExtResource("2_52nuc")
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
 shape = SubResource("BoxShape3D_lftpy")

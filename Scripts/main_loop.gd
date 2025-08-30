@@ -19,7 +19,6 @@ var _cur_row_ind : int
 var _player : PlayerController
 #var _tween : Tween
 var _physical_layers = []
-var _cur_player_position_type : Constants.PositionType
 #var _free_drone_slots_array : Array
 
 #@onready var spawn_drone_timer : Timer = $SpawnDroneTimer
@@ -49,7 +48,7 @@ func _ready():
 	_player.add_to_group("Player")
 	print(_player.get_groups())
 #	_tween = create_tween()
-	_cur_player_position_type = Constants.PositionType.MIDDLE
+	#_cur_player_position_type = Constants.PositionType.MIDDLE
 
 	
 	
@@ -72,10 +71,10 @@ func _process(delta):
 	
 
 	
-	if (queue[_cur_road_ind-1] as RoadPiece).current_obstacle != null && _cur_player_position_type == (queue[_cur_road_ind-1] as RoadPiece).current_obstacle.position_type:
+	if (queue[_cur_road_ind-1] as RoadPiece).current_obstacle != null && _player.cur_player_position_type == (queue[_cur_road_ind-1] as RoadPiece).current_obstacle.position_type:
 		(queue[_cur_road_ind-1] as RoadPiece).destroy_current_obstacle()
 		_player.health_component.take_hit_damage()
-	if cur_road.current_bottle != null && _cur_player_position_type == cur_road.current_bottle.position_type:
+	if cur_road.current_bottle != null && _player.cur_player_position_type == cur_road.current_bottle.position_type:
 		cur_road.destroy_current_bottle()
 		_player.health_component.take_bottle_heal()
 		

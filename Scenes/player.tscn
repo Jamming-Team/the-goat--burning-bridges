@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dupcr16kxrewr"]
+[gd_scene load_steps=14 format=3 uid="uid://dupcr16kxrewr"]
 
 [ext_resource type="Script" uid="uid://ca63nlavcssqa" path="res://Scripts/Player/player_controller.gd" id="1_ik2ko"]
 [ext_resource type="PackedScene" uid="uid://b5xgclofy1bs1" path="res://Scenes/hitbox_component.tscn" id="2_pvyo5"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://k4eddawt3po2" path="res://Sprites/BloodStains/stain4.png" id="7_pu2lt"]
 [ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="8_ukyrk"]
 [ext_resource type="Script" uid="uid://dp1g8dr43grc6" path="res://Scripts/Player/health_component.gd" id="9_f1ek2"]
+[ext_resource type="Script" uid="uid://c7hxk5cuty7mg" path="res://Scripts/Player/movement_component.gd" id="10_tx1dd"]
+[ext_resource type="Script" uid="uid://b6648uqsw23yw" path="res://Scripts/Player/input_component.gd" id="11_gymyn"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_yakoh"]
 
@@ -52,3 +54,14 @@ autostart = true
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("9_f1ek2")
 metadata/_custom_type_script = "uid://dp1g8dr43grc6"
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("10_tx1dd")
+_max_jump_height = 1.5
+_gravity = 8.0
+_max_jump_time = 0.7
+metadata/_custom_type_script = "uid://c7hxk5cuty7mg"
+
+[node name="InputComponent" type="Node" parent="."]
+script = ExtResource("11_gymyn")
+metadata/_custom_type_script = "uid://b6648uqsw23yw"

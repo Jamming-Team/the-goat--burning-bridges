@@ -1,4 +1,4 @@
-class_name PlayerInputController
+class_name InputComponent
 extends Node
 
 signal jump_pressed(flag : bool)

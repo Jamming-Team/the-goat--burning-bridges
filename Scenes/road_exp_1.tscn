@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://o6onj427635j"]
 
-[ext_resource type="Script" path="res://Scripts/road_piece.gd" id="1_y0qw8"]
+[ext_resource type="Script" uid="uid://ds16o1xb6db0t" path="res://Scripts/road_piece.gd" id="1_y0qw8"]
 [ext_resource type="PackedScene" uid="uid://dlnnhupxweuyd" path="res://Scenes/cell.tscn" id="2_llaa8"]
-[ext_resource type="Script" path="res://Scripts/obstacle_placer.gd" id="3_rqas5"]
-[ext_resource type="Script" path="res://Scripts/RoadMaker.gd" id="4_yu87f"]
+[ext_resource type="Script" uid="uid://b13366p0yl51w" path="res://Scripts/obstacle_placer.gd" id="3_rqas5"]
+[ext_resource type="Script" uid="uid://d0xwp1vpmyg7n" path="res://Scripts/RoadMaker.gd" id="4_yu87f"]
 
 [sub_resource type="Curve3D" id="Curve3D_xwe3t"]
 _data = {

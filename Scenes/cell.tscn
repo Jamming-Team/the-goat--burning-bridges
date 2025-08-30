@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dlnnhupxweuyd"]
 
-[ext_resource type="Script" path="res://Scripts/Cell.gd" id="1_akf0b"]
+[ext_resource type="Script" uid="uid://dks3dk0nksxo7" path="res://Scripts/Cell.gd" id="1_akf0b"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_ysgtf"]
 
 [node name="Cell" type="Node3D" node_paths=PackedStringArray("grid_decal")]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dh8hd7v6g3ngb"]
 
-[ext_resource type="Script" path="res://Scripts/drone_slot.gd" id="1_s01xb"]
+[ext_resource type="Script" uid="uid://d3n76dv1s5pv1" path="res://Scripts/drone_slot.gd" id="1_s01xb"]
 
 [node name="DroneSlot" type="Node3D"]
 script = ExtResource("1_s01xb")

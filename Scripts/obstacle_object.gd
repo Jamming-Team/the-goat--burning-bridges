@@ -15,23 +15,16 @@ func _ready():
 	_hitbox_component.on_hitbox_area_exited.connect(_on_exited_obstacle)
 
 
-func _on_entered_obstacle(area : Area3D):
+func _on_entered_obstacle(area : Area3D) -> void:
 	if area.get_parent().is_in_group("Player"):
 		player_affected_obstacle.emit(self)
-		print("test2")
+#		print("test2")
 		return
 	if area.is_in_group("Projectile"):
 		return
 
 
-func _on_exited_obstacle(area : Area3D):
+func _on_exited_obstacle(area : Area3D) -> void:
 	if area.is_in_group("Player"):
 		player_affected_obstacle.emit(null)
 		return
-
-
-
-
-
-
-

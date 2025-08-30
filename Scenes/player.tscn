@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dupcr16kxrewr"]
 
-[ext_resource type="Script" path="res://Scenes/player.gd" id="1_ik2ko"]
+[ext_resource type="Script" uid="uid://ca63nlavcssqa" path="res://Scenes/player.gd" id="1_ik2ko"]
 [ext_resource type="PackedScene" uid="uid://b5xgclofy1bs1" path="res://Scenes/hitbox_component.tscn" id="2_pvyo5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_yakoh"]

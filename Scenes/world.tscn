@@ -91,6 +91,9 @@ one_shot = true
 wait_time = 2.0
 autostart = true
 
+[node name="PreJumpTimer" type="Timer" parent="MainLoop"]
+one_shot = true
+
 [node name="road_exp_1" parent="." instance=ExtResource("2_kpmdb")]
 visible = false
 
@@ -107,3 +110,4 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [connection signal="timeout" from="MainLoop/SpawnDroneTimer" to="MainLoop" method="_on_spawn_drone_timer_timeout"]
+[connection signal="timeout" from="MainLoop/PreJumpTimer" to="MainLoop" method="_on_spawn_drone_timer_timeout"]

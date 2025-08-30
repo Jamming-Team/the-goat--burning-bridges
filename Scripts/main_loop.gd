@@ -26,6 +26,7 @@ var _cur_player_position_type : Constants.PositionType
 @onready var _roads_structure : Node3D = $RoadsStructure
 @onready var _input_controller : InputController = %InputController
 @onready var _move_cooldown_timer : Timer = $MoveCooldown
+@onready var _pre_jump_timer : Timer = $PreJumpTimer
 
 
 # Add an item to the queue if it has not reached its maximum capacity
@@ -79,7 +80,7 @@ var _initial_player_y : float
 var _cur_x : float
 var _cur_k : float
 func process_jump(call_type : int = 0):
-	if call_type == 0:
+	if call_type == 0 and (_player as Player).position.y == 0:
 		_cur_x = -jump_length / 2
 		_cur_player_position_type = Constants.PositionType.HIGH
 		#print("test2")
@@ -87,6 +88,9 @@ func process_jump(call_type : int = 0):
 		#print("k: " + str(_cur_k))
 		return
 	#print("test")
+	
+	if (call_type == 0):
+		_pre_jump_timer.start();
 	
 	(_player as Player).position.y =  -(_cur_x * _cur_x) * _cur_k + jump_height
 	_cur_x += move_for_value
@@ -107,8 +111,10 @@ func _physics_process(delta):
 		print("row ind: " + str(_cur_row_ind) + ", row coords: " + str(new_row_coords))
 		print("road ind: " + str(_cur_road_ind))
 		var tween: Tween = create_tween()
-		tween.tween_property(_player, "position", Vector3(0, 0, new_row_coords + 0.2 * cur_side_mov_dir), 0.1)
-		tween.tween_property(_player, "position", Vector3(0, 0, new_row_coords), 0.05)
+		tween.tween_method(func(x): _player.position.z = x, _player.position.z, new_row_coords + 0.2 * cur_side_mov_dir, 0.1)
+		tween.tween_method(func(x): _player.position.z = x, new_row_coords + 0.2 * cur_side_mov_dir, new_row_coords, 0.05)
+#		tween.tween_property(_player, "position.x", new_row_coords + 0.2 * cur_side_mov_dir, 0.1)
+#		tween.tween_property(_player, "position.x", new_row_coords, 0.05)
 		#tween.interpolate_value(_player.position, Vector3(0, 0, new_row_coords - _player.position.z), 0, 0.2, Tween.TRANS_BOUNCE, Tween.EASE_OUT_IN)
 		#_player.position = Vector3(0, 0, new_row_coords)
 		_move_cooldown_timer.start()

@@ -11,7 +11,7 @@ extends Node3D
 #@export var drone_slots : Node3D
 #@export var drone_scene : PackedScene
 
-var queue = []
+var queue : Array[RoadPiece] = []
 var cur_road : RoadPiece:
 	get:
 		return queue[_cur_road_ind-1] as RoadPiece
@@ -142,6 +142,10 @@ func _physics_process(delta):
 	if (queue[_cur_road_ind-1] as RoadPiece).current_obstacle != null && _cur_player_position_type == (queue[_cur_road_ind-1] as RoadPiece).current_obstacle.position_type:
 		(queue[_cur_road_ind-1] as RoadPiece).destroy_current_obstacle()
 		_health.take_hit_damage()
+	if cur_road.current_bottle != null && _cur_player_position_type == cur_road.current_bottle.position_type:
+		cur_road.destroy_current_bottle()
+		_health.take_bottle_heal()
+		
 		
 
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://ot5hi2mfd0ni"]
 
 [ext_resource type="Script" uid="uid://js1tyxwqbo4o" path="res://Scripts/BloodBottle.gd" id="1_rov7m"]
-[ext_resource type="Script" uid="uid://dahsuxu00slxq" path="res://Scripts/HitboxComponent.gd" id="2_6fn21"]
+[ext_resource type="PackedScene" uid="uid://b5xgclofy1bs1" path="res://Scenes/hitbox_component.tscn" id="2_6fn21"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_rov7m"]
 
@@ -14,15 +14,15 @@ albedo_color = Color(1, 0.227451, 0.309804, 0.411765)
 [node name="BloodBottle1" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.509, 0)
 script = ExtResource("1_rov7m")
+position_type = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("SphereMesh_rov7m")
 surface_material_override/0 = SubResource("StandardMaterial3D_6fn21")
 
-[node name="HitboxComponent" type="Area3D" parent="."]
-script = ExtResource("2_6fn21")
-metadata/_custom_type_script = "uid://dahsuxu00slxq"
+[node name="HitboxComponent" parent="." instance=ExtResource("2_6fn21")]
+collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("SphereShape3D_w57sa")

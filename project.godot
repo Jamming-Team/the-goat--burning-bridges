@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
-Constants="*res://Scripts/constants.gd"
+Constants="*res://Scripts/Core/constants.gd"
+SharedVariables="*res://Scripts/Core/shared_variables.gd"
 
 [editor_plugins]
 

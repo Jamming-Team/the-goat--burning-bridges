@@ -74,6 +74,7 @@ func _process(delta):
 	if (queue[_cur_road_ind-1] as RoadPiece).current_obstacle != null && _player.cur_player_position_type == (queue[_cur_road_ind-1] as RoadPiece).current_obstacle.position_type:
 		(queue[_cur_road_ind-1] as RoadPiece).destroy_current_obstacle()
 		_player.health_component.take_hit_damage()
+		_player.movement_component.shake_x()
 	if cur_road.current_bottle != null && _player.cur_player_position_type == cur_road.current_bottle.position_type:
 		cur_road.destroy_current_bottle()
 		_player.health_component.take_bottle_heal()

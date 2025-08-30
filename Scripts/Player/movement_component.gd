@@ -111,6 +111,11 @@ func _process_z(delta: float) -> void:
 		_move_cooldown_timer.start()
 		_first_move_fired = true
 
+func shake_x() -> void:
+	var tween: Tween = create_tween()
+	tween.tween_property(_player, "position:x", -1.5, 0.2)
+	tween.tween_property(_player, "position:x", 0, 0.2)
+
 #@export var jump_height : float = 2
 #@export var jump_length : float = 4
 #var _cur_x : float

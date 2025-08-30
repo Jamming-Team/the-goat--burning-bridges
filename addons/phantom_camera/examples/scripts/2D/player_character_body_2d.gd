@@ -47,8 +47,8 @@ var InputMovementDic: Dictionary = {
 
 
 func _ready() -> void:
-	_player_area2d.connect("body_shape_entered", _show_prompt)
-	_player_area2d.connect("body_shape_exited", _hide_prompt)
+	_player_area2d.body_shape_entered.connect(_show_prompt)
+	_player_area2d.body_shape_exited.connect(_hide_prompt)
 
 	_ui_sign = owner.get_node("%UISign")
 
@@ -187,4 +187,3 @@ func _hide_prompt(body_rid: RID, body: Node2D, body_shape_index: int, local_shap
 			_interactive_UI = null
 			_interactive_object = InteractiveType.NONE
 			_active_pcam = null
-

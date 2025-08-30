@@ -17,10 +17,10 @@ var _cur_road_ind : int
 var _cur_road_remaining_length : float
 var _cur_row_ind : int
 var _player : Node3D
-var _tween : Tween
+#var _tween : Tween
 var _physical_layers = []
 var _cur_player_position_type : Constants.PositionType
-var _free_drone_slots_array : Array
+#var _free_drone_slots_array : Array
 
 #@onready var spawn_drone_timer : Timer = $SpawnDroneTimer
 @onready var _roads_structure : Node3D = $RoadsStructure
@@ -49,7 +49,7 @@ func _ready():
 	add_child(_player)
 	_player.add_to_group("Player")
 	print(_player.get_groups())
-	_tween = create_tween()
+#	_tween = create_tween()
 	_cur_player_position_type = Constants.PositionType.MIDDLE
 	_initial_player_y = _player.position.y
 	_input_controller.jump_pressed.connect(process_jump)
@@ -106,7 +106,7 @@ func _physics_process(delta):
 		var new_row_coords = (queue[_cur_road_ind] as RoadPiece).get_current_row_coords(_cur_row_ind)
 		print("row ind: " + str(_cur_row_ind) + ", row coords: " + str(new_row_coords))
 		print("road ind: " + str(_cur_road_ind))
-		var tween = create_tween()
+		var tween: Tween = create_tween()
 		tween.tween_property(_player, "position", Vector3(0, 0, new_row_coords + 0.2 * cur_side_mov_dir), 0.1)
 		tween.tween_property(_player, "position", Vector3(0, 0, new_row_coords), 0.05)
 		#tween.interpolate_value(_player.position, Vector3(0, 0, new_row_coords - _player.position.z), 0, 0.2, Tween.TRANS_BOUNCE, Tween.EASE_OUT_IN)

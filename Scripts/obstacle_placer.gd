@@ -1,7 +1,7 @@
 class_name ObstaclePlacer
 extends Node3D
 
-var object_scenes = [
+var object_scenes: Array[Variant] = [
 	preload("res://Scenes/ObstacleObjects/obstacle_object1.tscn"),
 	#preload("res://Scenes/ObstacleObjects/obstacle_object2.tscn"),
 	#preload("res://Scenes/ObstacleObjects/obstacle_object3.tscn"),
@@ -13,22 +13,22 @@ var object_scenes = [
 var max_failed_iters_threshold : int = 100
 
 
-func place_obstacles(obstacles_matrix : Dictionary, road_width : int, road_length : int) -> Array:
+func place_obstacles(obstacles_matrix : Dictionary, road_width : int, road_length : int) -> Array[Variant]:
 	var random_width_ind : int
 	var random_length_ind : int
 	var cur_failed_iters : int = 0
-	var cur_placed_count : int = 0
-	var obstacles_array = []
+	var cur_placed_count : int          = 0
+	var obstacles_array: Array[Variant] = []
 	#print (road_width)
 	print("max count: " + str(max_count))
 	while (cur_placed_count < max_count && cur_failed_iters < max_failed_iters_threshold):
 		random_width_ind = randi() % road_width
 		random_length_ind = randi() % road_length
 		#print(Vector2(random_width_ind, random_length_ind))
-		var cur_cell = obstacles_matrix[Vector2(random_width_ind, random_length_ind)] as Cell
+		var cur_cell: Cell = obstacles_matrix[Vector2(random_width_ind, random_length_ind)] as Cell
 		#print("is good? - " + str(cur_cell.is_good_for_placing))
 		if (cur_cell.is_good_for_placing):
-			var scene_instance = object_scenes[randi() % object_scenes.size()].instantiate() as ObstacleObject
+			var scene_instance: ObstacleObject = object_scenes[randi() % object_scenes.size()].instantiate() as ObstacleObject
 			scene_instance.position = cur_cell.position
 			scene_instance.scale = cur_cell.scale
 			cur_cell.obstacle_object = scene_instance
@@ -43,6 +43,6 @@ func place_obstacles(obstacles_matrix : Dictionary, road_width : int, road_lengt
 			obstacles_array.append(scene_instance)
 		else:
 			cur_failed_iters += 1
-	print("initial obstacles array: " + str(obstacles_array.size()))
-	print("initial obstacles array: " + str(obstacles_array))
+#	print("initial obstacles array: " + str(obstacles_array.size()))
+#	print("initial obstacles array: " + str(obstacles_array))
 	return obstacles_array

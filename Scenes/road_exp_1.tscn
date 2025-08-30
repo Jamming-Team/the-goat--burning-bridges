@@ -25,7 +25,6 @@ cell_size = 1.0
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="Road" type="CSGPolygon3D" parent="."]
-snap = 0.013225
 polygon = PackedVector2Array(0, 0, 0, 0.1, 5.68, 0.1, 5.68, 0)
 mode = 2
 path_node = NodePath("..")
@@ -33,6 +32,7 @@ path_interval_type = 0
 path_interval = 1.0
 path_simplify_angle = 180.0
 path_rotation = 2
+path_rotation_accurate = false
 path_local = true
 path_continuous_u = true
 path_u_distance = 1.0
@@ -40,7 +40,6 @@ path_joined = false
 
 [node name="BorderLeft" type="CSGPolygon3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.100552, 0)
-snap = 0.013225
 polygon = PackedVector2Array(0, 0, 0, 0.1, 0.34, 0.1, 0.34, 0)
 mode = 2
 path_node = NodePath("..")
@@ -48,6 +47,7 @@ path_interval_type = 0
 path_interval = 1.0
 path_simplify_angle = 180.0
 path_rotation = 2
+path_rotation_accurate = false
 path_local = true
 path_continuous_u = true
 path_u_distance = 1.0
@@ -55,7 +55,6 @@ path_joined = false
 
 [node name="BorderRight" type="CSGPolygon3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.100552, 5.34)
-snap = 0.013225
 polygon = PackedVector2Array(0, 0, 0, 0.1, 0.34, 0.1, 0.34, 0)
 mode = 2
 path_node = NodePath("..")
@@ -63,6 +62,7 @@ path_interval_type = 0
 path_interval = 1.0
 path_simplify_angle = 180.0
 path_rotation = 2
+path_rotation_accurate = false
 path_local = true
 path_continuous_u = true
 path_u_distance = 1.0

@@ -11,9 +11,13 @@ extends Node3D
 		return $GridDecal as Decal
 
 @export var obstacle_object : ObstacleObject
+@export var blood_bottle : BloodBottle
+
+@export var blood_bottle_positions : Array[Node3D]
 
 @export var is_good_for_placing : bool = true
 
+	
 
 #func _on_area_3d_area_entered(area):
 	#player_is_in_cell.emit(coords)

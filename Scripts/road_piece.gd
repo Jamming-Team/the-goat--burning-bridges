@@ -9,7 +9,8 @@ extends Path3D
 
 var cells_matrix : Dictionary
 var current_obstacle : ObstacleObject = null
-var _obstacles_array : Array
+var _obstacles_array : Array[ObstacleObject]
+var _bottles_array : Array[BloodBottle]
 
 @onready var cells_container = $CellsContainer
 @onready var obstacle_placer : ObstaclePlacer = $ObstaclePlacer
@@ -18,9 +19,12 @@ var _obstacles_array : Array
 func _ready():
 	fill_cells_matrix()
 	_obstacles_array = obstacle_placer.place_obstacles(cells_matrix, road_width, road_length_in_cells)
-	print("obstacles_array: " + str(_obstacles_array.size()))
+	#print("obstacles_array: " + str(_obstacles_array.size()))
 	for obstacle in _obstacles_array:
 		(obstacle as ObstacleObject).player_affected_obstacle.connect(set_current_obstacle)
+	
+	_bottles_array = obstacle_placer.place_bottles(cells_matrix, road_width, road_length_in_cells)
+	
 
 func fill_cells_matrix():
 	for cell in cells_container.get_children():

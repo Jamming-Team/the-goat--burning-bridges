@@ -53,6 +53,7 @@ path_joined = true
 
 [node name="Decal" type="Decal" parent="MainLoop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.18923, 0, 0.183096)
+visible = false
 size = Vector3(1, 1, 1)
 texture_albedo = ExtResource("2_h8tf1")
 upper_fade = 0.00437359
@@ -70,7 +71,6 @@ skeleton = NodePath("../Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="MainLoop"]
 transform = Transform3D(0.71934, 0.509692, -0.47198, 0, 0.679441, 0.73373, 0.694658, -0.527801, 0.488749, -1.061, 4.696, 5.661)
-projection = 1
 size = 7.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="MainLoop"]

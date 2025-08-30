@@ -16,9 +16,10 @@ var _bottles_array : Array[BloodBottle]
 @onready var cells_container = $CellsContainer
 @onready var obstacle_placer : ObstaclePlacer = $ObstaclePlacer
 
-
-func _ready():
+func init(boxes: int, bottles : int):
 	fill_cells_matrix()
+	obstacle_placer.max_count_obstacles += boxes
+	obstacle_placer.max_count_bottles += bottles
 	_obstacles_array = obstacle_placer.place_obstacles(cells_matrix, road_width, road_length_in_cells)
 	#print("obstacles_array: " + str(_obstacles_array.size()))
 	for obstacle in _obstacles_array:
@@ -28,6 +29,9 @@ func _ready():
 	_bottles_array = obstacle_placer.place_bottles(cells_matrix, road_width, road_length_in_cells)
 	for bootle in _bottles_array:
 		bootle.player_affected_bottle.connect(set_current_bottle)
+
+#func _ready():
+	
 	
 
 func fill_cells_matrix():
@@ -62,3 +66,13 @@ func destroy_current_bottle():
 	#	print(_obstacles_array.size())
 	current_bottle.queue_free()
 	current_bottle = null
+
+
+func destroy_everything():
+	for box in _obstacles_array:
+		box.queue_free()
+	_obstacles_array.clear()
+	
+	for bottle in _bottles_array:
+		bottle.queue_free()
+	_bottles_array.clear()

@@ -8,8 +8,8 @@ script = ExtResource("1_akf0b")
 grid_decal = NodePath("GridDecal")
 
 [node name="GridDecal" type="Decal" parent="."]
-visible = false
 size = Vector3(1, 1, 1)
 texture_albedo = ExtResource("2_ysgtf")
 upper_fade = 0.00437359
 lower_fade = 0.00226391
+cull_mask = 1048561

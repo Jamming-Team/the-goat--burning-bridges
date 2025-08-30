@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=12 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
@@ -16,6 +16,8 @@ point_count = 8
 
 [sub_resource type="BoxMesh" id="BoxMesh_p5sc6"]
 
+[sub_resource type="Environment" id="Environment_5ukr8"]
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hgpy0"]
 load_path = "res://.godot/imported/stain1.png-f390788865b5c5a0cd38271911dc98fd.ctex"
 
@@ -32,6 +34,7 @@ script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
 road_speed = 7.0
 player_scene = ExtResource("3_w7hke")
+increase_boxes_per_interval = 30
 
 [node name="Path3D3" type="Path3D" parent="MainLoop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)
@@ -65,14 +68,20 @@ skeleton = NodePath("../Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="MainLoop"]
 transform = Transform3D(0.71934, 0.509692, -0.47198, 0, 0.679441, 0.73373, 0.694658, -0.527801, 0.488749, -1.061, 4.696, 5.661)
+environment = SubResource("Environment_5ukr8")
 fov = 70.0
 size = 7.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="MainLoop"]
 transform = Transform3D(0.870337, 0.290878, -0.39737, 0, 0.806915, 0.590668, 0.492456, -0.514081, 0.702288, -0.203626, 2.62001, 7.03562)
 shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_max_distance = 300.0
 
 [node name="RoadsStructure" type="Node3D" parent="MainLoop"]
+
+[node name="IncreaseDifficultyInterval" type="Timer" parent="MainLoop"]
+wait_time = 10.0
 
 [node name="road_exp_1" parent="." instance=ExtResource("2_kpmdb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -48.3611, 0)

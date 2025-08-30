@@ -93,6 +93,7 @@ func _process_y(delta: float) ->  void:
 func _process_z(delta: float) -> void:
 	var cur_side_mov_dir: int = _input_component.side_movement
 	#if (cur_side_mov_dir != 0):
+
 		
 	if (cur_side_mov_dir != 0 && _move_cooldown_timer.is_stopped() and cur_road and (not _first_move_fired or _move_pressed_time >_threshold_for_second_move)):
 		##print(str(cur_side_mov_dir) + str((queue[_cur_road_ind] as RoadPiece).road_width - 1) + " " + str(_cur_row_ind + cur_side_mov_dir))
@@ -110,6 +111,7 @@ func _process_z(delta: float) -> void:
 		##_player.position = Vector3(0, 0, new_row_coords)
 		_move_cooldown_timer.start()
 		_first_move_fired = true
+		_move_is_pressed = true
 
 func shake_x() -> void:
 	var tween: Tween = create_tween()

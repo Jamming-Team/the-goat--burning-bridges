@@ -5,6 +5,7 @@ extends Node
 #@export var _max_jumo_velocity : float = 2
 @export var _gravity : float = 2
 @export var _max_jump_time : float = 2
+@export var _min_jump_time : float = 0.2
 @export var _threshold_for_second_move : float = 0.1
 
 @onready var _move_cooldown_timer : Timer = $MoveCooldown
@@ -56,8 +57,8 @@ func _process_jump_press(pressed : bool):
 	
 	
 	
-	if (pressed == false and _y_velocity_tween.is_running()):
-		_y_velocity_tween.stop()
+	#if (pressed == false and _y_velocity_tween.is_running()):
+		#_y_velocity_tween.stop()
 	
 
 func _process(delta: float) -> void:
@@ -77,11 +78,17 @@ func _process_y(delta: float) ->  void:
 		_player.cur_player_position_type = Constants.PositionType.HIGH
 		return
 	
-	if (_y_velocity_tween != null and not _y_velocity_tween.is_running()):
-		_player.position.y = max(_player.initial_player_y, _player.position.y - _gravity * delta)
+	if _y_velocity_tween != null:
+		if not _jump_is_pressed and _y_velocity_tween.is_running() and _y_velocity_tween.get_total_elapsed_time() > _min_jump_time:
+			_y_velocity_tween.stop()
+		
+		if not _y_velocity_tween.is_running():
+			_player.position.y = max(_player.initial_player_y, _player.position.y - _gravity * delta)
+	
+	if _player.is_grounded:
 		_player.cur_player_position_type = Constants.PositionType.MIDDLE
-		
-		
+
+
 
 func _process_z(delta: float) -> void:
 	var cur_side_mov_dir: int = _input_component.side_movement

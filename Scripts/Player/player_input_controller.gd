@@ -1,7 +1,7 @@
-class_name InputController
+class_name PlayerInputController
 extends Node
 
-signal jump_pressed
+signal jump_pressed(flag : bool)
 
 @export var side_movement_deadzone : float = 0.2
 
@@ -12,11 +12,14 @@ var side_movement : int :
 			return 1 if side_movement_raw > 0 else -1
 		else:
 			return 0
-var crouch : float = 0
+#var crouch : float = 0
 
-func _physics_process(delta):
+func _physics_process(__delta):
 	side_movement_raw = Input.get_axis("move_left", "move_right")
-	crouch = Input.is_action_pressed("crouch")
+#	crouch = Input.is_action_pressed("crouch")
 	
 	if (Input.is_action_just_pressed("jump")):
-		jump_pressed.emit()
+		jump_pressed.emit(true)
+		
+	if (Input.is_action_just_released("jump")):
+		jump_pressed.emit(false)

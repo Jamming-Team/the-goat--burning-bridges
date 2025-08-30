@@ -1,17 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=11 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
 [ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
-[ext_resource type="Texture2D" uid="uid://brumqqioo2ac7" path="res://Sprites/BloodStains/stain1.png" id="4_k7acu"]
-[ext_resource type="Script" uid="uid://dp1g8dr43grc6" path="res://Scripts/health.gd" id="7_k7acu"]
-[ext_resource type="Script" uid="uid://cqcbjdoql28nj" path="res://Scripts/blood_strains_controller.gd" id="8_5v1tr"]
-[ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="9_0fj1v"]
-[ext_resource type="Texture2D" uid="uid://c28xxb0i5e3an" path="res://Sprites/BloodStains/stain2.png" id="9_c5t2i"]
-[ext_resource type="Script" uid="uid://b6648uqsw23yw" path="res://Scripts/input_controller.gd" id="9_uym70"]
-[ext_resource type="Texture2D" uid="uid://bajdtkd1r4r1e" path="res://Sprites/BloodStains/stain3.png" id="10_e0ngr"]
 [ext_resource type="Script" uid="uid://cpyb1usx3trmf" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
-[ext_resource type="Texture2D" uid="uid://k4eddawt3po2" path="res://Sprites/BloodStains/stain4.png" id="11_kn0ld"]
 [ext_resource type="Shader" uid="uid://c4un4cjrb2g0b" path="res://Scripts/pixelTest.gdshader" id="12_187ri"]
 [ext_resource type="PackedScene" uid="uid://ojjpjejrdl2w" path="res://Scenes/ObstacleObjects/obstacle_object1.tscn" id="13_e0ngr"]
 
@@ -34,13 +26,12 @@ shader_parameter/y_pixel_size = 0
 
 [node name="World" type="Node3D"]
 
-[node name="MainLoop" type="Node3D" parent="." node_paths=PackedStringArray("blood_stains_controller")]
+[node name="MainLoop" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
 road_speed = 10.0
 player_scene = ExtResource("3_w7hke")
-blood_stains_controller = NodePath("BloodStrainsController")
 
 [node name="Path3D3" type="Path3D" parent="MainLoop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)
@@ -82,35 +73,6 @@ shadow_enabled = true
 
 [node name="RoadsStructure" type="Node3D" parent="MainLoop"]
 
-[node name="InputController" type="Node" parent="MainLoop"]
-unique_name_in_owner = true
-script = ExtResource("9_uym70")
-
-[node name="MoveCooldown" type="Timer" parent="MainLoop"]
-wait_time = 0.2
-one_shot = true
-
-[node name="SpawnDroneTimer" type="Timer" parent="MainLoop"]
-wait_time = 2.0
-autostart = true
-
-[node name="PreJumpTimer" type="Timer" parent="MainLoop"]
-one_shot = true
-
-[node name="Health" type="Node" parent="MainLoop"]
-script = ExtResource("7_k7acu")
-metadata/_custom_type_script = "uid://dp1g8dr43grc6"
-
-[node name="BloodStrainsController" type="Node" parent="MainLoop"]
-script = ExtResource("8_5v1tr")
-_blood_stain_sprites = Array[Texture]([ExtResource("4_k7acu"), ExtResource("9_c5t2i"), ExtResource("10_e0ngr"), ExtResource("11_kn0ld")])
-_decal_scene = ExtResource("9_0fj1v")
-metadata/_custom_type_script = "uid://cqcbjdoql28nj"
-
-[node name="SpawnStainCd" type="Timer" parent="MainLoop/BloodStrainsController"]
-wait_time = 0.05
-autostart = true
-
 [node name="road_exp_1" parent="." instance=ExtResource("2_kpmdb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -48.3611, 0)
 visible = false
@@ -136,6 +98,3 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[connection signal="timeout" from="MainLoop/SpawnDroneTimer" to="MainLoop" method="_on_spawn_drone_timer_timeout"]
-[connection signal="timeout" from="MainLoop/PreJumpTimer" to="MainLoop" method="_on_spawn_drone_timer_timeout"]

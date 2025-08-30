@@ -1,7 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dupcr16kxrewr"]
+[gd_scene load_steps=12 format=3 uid="uid://dupcr16kxrewr"]
 
-[ext_resource type="Script" uid="uid://ca63nlavcssqa" path="res://Scenes/player.gd" id="1_ik2ko"]
+[ext_resource type="Script" uid="uid://ca63nlavcssqa" path="res://Scripts/Player/player_controller.gd" id="1_ik2ko"]
 [ext_resource type="PackedScene" uid="uid://b5xgclofy1bs1" path="res://Scenes/hitbox_component.tscn" id="2_pvyo5"]
+[ext_resource type="Script" uid="uid://cqcbjdoql28nj" path="res://Scripts/Player/blood_strains_component.gd" id="3_8erm5"]
+[ext_resource type="Texture2D" uid="uid://brumqqioo2ac7" path="res://Sprites/BloodStains/stain1.png" id="4_f1ek2"]
+[ext_resource type="Texture2D" uid="uid://c28xxb0i5e3an" path="res://Sprites/BloodStains/stain2.png" id="5_tx1dd"]
+[ext_resource type="Texture2D" uid="uid://bajdtkd1r4r1e" path="res://Sprites/BloodStains/stain3.png" id="6_gymyn"]
+[ext_resource type="Texture2D" uid="uid://k4eddawt3po2" path="res://Sprites/BloodStains/stain4.png" id="7_pu2lt"]
+[ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="8_ukyrk"]
+[ext_resource type="Script" uid="uid://dp1g8dr43grc6" path="res://Scripts/Player/health_component.gd" id="9_f1ek2"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_yakoh"]
 
@@ -10,7 +17,6 @@
 [node name="Player" type="Node3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("1_ik2ko")
-_collision_mask = 10
 
 [node name="Graphics" type="Node3D" parent="."]
 
@@ -27,9 +33,22 @@ collision_mask = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.930474, 0)
 shape = SubResource("CapsuleShape3D_1whki")
 
-[node name="RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-target_position = Vector3(0, -10, 0)
+[node name="BloodStrainsComponent" type="Node3D" parent="."]
+script = ExtResource("3_8erm5")
+_blood_stain_sprites = Array[Texture]([ExtResource("4_f1ek2"), ExtResource("5_tx1dd"), ExtResource("6_gymyn"), ExtResource("7_pu2lt")])
+_decal_scene = ExtResource("8_ukyrk")
+metadata/_custom_type_script = "uid://cqcbjdoql28nj"
+
+[node name="RayCast3D" type="RayCast3D" parent="BloodStrainsComponent"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
+target_position = Vector3(0, -3, 0)
 collision_mask = 10
-hit_from_inside = true
 collide_with_areas = true
+
+[node name="SpawnStainCd" type="Timer" parent="BloodStrainsComponent"]
+wait_time = 0.05
+autostart = true
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("9_f1ek2")
+metadata/_custom_type_script = "uid://dp1g8dr43grc6"

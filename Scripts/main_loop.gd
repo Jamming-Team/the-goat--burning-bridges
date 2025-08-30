@@ -1,3 +1,4 @@
+class_name MainGameLoop
 extends Node3D
 
 #@export var obstacle_placer : ObstaclePlacer
@@ -6,10 +7,14 @@ extends Node3D
 @export var road_speed : float = 2.0
 @export var roads_array : Array
 @export var player_scene : PackedScene
+@export var blood_stains_controller : BloodStrainsController
 #@export var drone_slots : Node3D
 #@export var drone_scene : PackedScene
 
 var queue = []
+var cur_road : RoadPiece:
+	get:
+		return queue[_cur_road_ind-1] as RoadPiece
 var max_queue_size = 10
 var min_behind : int = 2
 var _front_position : float
@@ -55,6 +60,8 @@ func _ready():
 	_cur_player_position_type = Constants.PositionType.MIDDLE
 	_initial_player_y = _player.position.y
 	_input_controller.jump_pressed.connect(process_jump)
+	
+	blood_stains_controller.supply(_player, self)
 	
 #	for drone_slot in drone_slots.get_children():
 #		_free_drone_slots_array.append(drone_slot)

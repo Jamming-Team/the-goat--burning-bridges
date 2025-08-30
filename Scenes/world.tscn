@@ -1,13 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=19 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
-[ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_h8tf1"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
 [ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
+[ext_resource type="Texture2D" uid="uid://brumqqioo2ac7" path="res://Sprites/BloodStains/stain1.png" id="4_k7acu"]
 [ext_resource type="Script" uid="uid://dp1g8dr43grc6" path="res://Scripts/health.gd" id="7_k7acu"]
+[ext_resource type="Script" uid="uid://cqcbjdoql28nj" path="res://Scripts/blood_strains_controller.gd" id="8_5v1tr"]
+[ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="9_0fj1v"]
+[ext_resource type="Texture2D" uid="uid://c28xxb0i5e3an" path="res://Sprites/BloodStains/stain2.png" id="9_c5t2i"]
 [ext_resource type="Script" uid="uid://b6648uqsw23yw" path="res://Scripts/input_controller.gd" id="9_uym70"]
+[ext_resource type="Texture2D" uid="uid://bajdtkd1r4r1e" path="res://Sprites/BloodStains/stain3.png" id="10_e0ngr"]
 [ext_resource type="Script" uid="uid://cpyb1usx3trmf" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
+[ext_resource type="Texture2D" uid="uid://k4eddawt3po2" path="res://Sprites/BloodStains/stain4.png" id="11_kn0ld"]
 [ext_resource type="Shader" uid="uid://c4un4cjrb2g0b" path="res://Scripts/pixelTest.gdshader" id="12_187ri"]
+[ext_resource type="PackedScene" uid="uid://ojjpjejrdl2w" path="res://Scenes/ObstacleObjects/obstacle_object1.tscn" id="13_e0ngr"]
 
 [sub_resource type="Curve3D" id="Curve3D_4sx3n"]
 _data = {
@@ -18,6 +24,9 @@ point_count = 8
 
 [sub_resource type="BoxMesh" id="BoxMesh_p5sc6"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hgpy0"]
+load_path = "res://.godot/imported/stain1.png-f390788865b5c5a0cd38271911dc98fd.ctex"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k7l5f"]
 shader = ExtResource("12_187ri")
 shader_parameter/x_pixel_size = 0
@@ -25,12 +34,13 @@ shader_parameter/y_pixel_size = 0
 
 [node name="World" type="Node3D"]
 
-[node name="MainLoop" type="Node3D" parent="."]
+[node name="MainLoop" type="Node3D" parent="." node_paths=PackedStringArray("blood_stains_controller")]
 unique_name_in_owner = true
 script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
 road_speed = 10.0
 player_scene = ExtResource("3_w7hke")
+blood_stains_controller = NodePath("BloodStrainsController")
 
 [node name="Path3D3" type="Path3D" parent="MainLoop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)
@@ -51,14 +61,6 @@ path_local = false
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = true
-
-[node name="Decal" type="Decal" parent="MainLoop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.18923, 0, 0.183096)
-visible = false
-size = Vector3(1, 1, 1)
-texture_albedo = ExtResource("2_h8tf1")
-upper_fade = 0.00437359
-lower_fade = 0.00226391
 
 [node name="Node3D" type="Node3D" parent="MainLoop"]
 transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, 0.607057, 4.6962, 5.661)
@@ -99,8 +101,29 @@ one_shot = true
 script = ExtResource("7_k7acu")
 metadata/_custom_type_script = "uid://dp1g8dr43grc6"
 
+[node name="BloodStrainsController" type="Node" parent="MainLoop"]
+script = ExtResource("8_5v1tr")
+_blood_stain_sprites = Array[Texture]([ExtResource("4_k7acu"), ExtResource("9_c5t2i"), ExtResource("10_e0ngr"), ExtResource("11_kn0ld")])
+_decal_scene = ExtResource("9_0fj1v")
+metadata/_custom_type_script = "uid://cqcbjdoql28nj"
+
+[node name="SpawnStainCd" type="Timer" parent="MainLoop/BloodStrainsController"]
+wait_time = 0.05
+autostart = true
+
 [node name="road_exp_1" parent="." instance=ExtResource("2_kpmdb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -48.3611, 0)
 visible = false
+
+[node name="Decal" type="Decal" parent="road_exp_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1532, 1.0317, 2.13233)
+size = Vector3(1, 1, 1)
+texture_albedo = SubResource("CompressedTexture2D_hgpy0")
+upper_fade = 0.00437359
+lower_fade = 0.00226391
+
+[node name="ObstacleObject" parent="road_exp_1" instance=ExtResource("13_e0ngr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46693, 0.608525, 2.59738)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false

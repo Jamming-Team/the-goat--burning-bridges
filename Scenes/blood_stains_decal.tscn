@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://six2toflebar"]
+
+[node name="BloodStainsController" type="Decal"]
+size = Vector3(0.7, 0.7, 0.7)
+cull_mask = 1048573

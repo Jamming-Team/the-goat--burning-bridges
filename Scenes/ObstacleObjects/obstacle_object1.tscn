@@ -22,6 +22,7 @@ mesh = SubResource("BoxMesh_6pgrf")
 surface_material_override/0 = ExtResource("2_52nuc")
 
 [node name="HitboxComponent" parent="." instance=ExtResource("3_pgt4x")]
+collision_layer = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("BoxShape3D_lftpy")

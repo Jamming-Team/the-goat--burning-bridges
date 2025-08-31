@@ -21,9 +21,15 @@ PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_came
 Constants="*res://Scripts/Core/constants.gd"
 GameSignals="*res://Scripts/Core/game_signals.gd"
 
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=480
+window/stretch/mode="viewport"
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/decal_compatibility/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [input]
 
@@ -58,3 +64,7 @@ crouch={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+shading/overrides/force_vertex_shading=true
+textures/default_filters/anisotropic_filtering_level=0

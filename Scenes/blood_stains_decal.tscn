@@ -1,5 +1,35 @@
-[gd_scene format=3 uid="uid://six2toflebar"]
+[gd_scene load_steps=6 format=3 uid="uid://six2toflebar"]
 
-[node name="BloodStainsController" type="Decal"]
+[ext_resource type="Shader" uid="uid://foqf6idimvb0" path="res://addons/decal_compatibility/decal.gdshader" id="1_5dxmd"]
+[ext_resource type="Script" uid="uid://feckn7f3pmud" path="res://addons/decal_compatibility/decal_compatibility.gd" id="2_0y2pn"]
+[ext_resource type="Texture2D" uid="uid://bajdtkd1r4r1e" path="res://Sprites/BloodStains/stain3.png" id="2_ljkxu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0y2pn"]
+render_priority = 0
+shader = ExtResource("1_5dxmd")
+shader_parameter/albedo = ExtResource("2_ljkxu")
+shader_parameter/modulate = Color(1, 1, 1, 0.470588)
+shader_parameter/albedo_mix = 1.0
+shader_parameter/scale_mod = Vector3(1.42857, 1.42857, 1.42857)
+shader_parameter/cube_half_size = Vector3(0.35, 0.35, 0.35)
+shader_parameter/enable_y_fade = false
+shader_parameter/fade_start = 0.3
+shader_parameter/fade_end = 0.7
+shader_parameter/fade_power = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ljkxu"]
+material = SubResource("ShaderMaterial_0y2pn")
 size = Vector3(0.7, 0.7, 0.7)
-cull_mask = 1048573
+
+[node name="BloodStainsController" type="MeshInstance3D"]
+layers = 13
+cast_shadow = 0
+gi_lightmap_scale = 0
+mesh = SubResource("BoxMesh_ljkxu")
+Skeleton = null
+script = ExtResource("2_0y2pn")
+size = Vector3(0.7, 0.7, 0.7)
+texture = ExtResource("2_ljkxu")
+modulate = Color(1, 1, 1, 0.470588)
+enable_fade = false
+metadata/_custom_type_script = "uid://feckn7f3pmud"

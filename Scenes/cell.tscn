@@ -1,15 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://dlnnhupxweuyd"]
+[gd_scene load_steps=7 format=3 uid="uid://dlnnhupxweuyd"]
 
 [ext_resource type="Script" uid="uid://dks3dk0nksxo7" path="res://Scripts/Cell.gd" id="1_akf0b"]
+[ext_resource type="Shader" uid="uid://foqf6idimvb0" path="res://addons/decal_compatibility/decal.gdshader" id="2_imdwo"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_ysgtf"]
+[ext_resource type="Script" uid="uid://feckn7f3pmud" path="res://addons/decal_compatibility/decal_compatibility.gd" id="4_7tk7m"]
 
-[node name="Cell" type="Node3D" node_paths=PackedStringArray("grid_decal")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r6d3g"]
+render_priority = 0
+shader = ExtResource("2_imdwo")
+shader_parameter/albedo = ExtResource("2_ysgtf")
+shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/albedo_mix = 1.0
+shader_parameter/scale_mod = Vector3(1, 1, 1)
+shader_parameter/cube_half_size = Vector3(0.5, 0.5, 0.5)
+shader_parameter/enable_y_fade = false
+shader_parameter/fade_start = 0.3
+shader_parameter/fade_end = 0.7
+shader_parameter/fade_power = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_mknqo"]
+material = SubResource("ShaderMaterial_r6d3g")
+
+[node name="Cell" type="Node3D"]
 script = ExtResource("1_akf0b")
-grid_decal = NodePath("GridDecal")
 
-[node name="GridDecal" type="Decal" parent="."]
+[node name="GridDecal" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89, 0)
+cast_shadow = 0
+gi_lightmap_scale = 0
+mesh = SubResource("BoxMesh_mknqo")
+Skeleton = null
+script = ExtResource("4_7tk7m")
 size = Vector3(1, 1, 1)
-texture_albedo = ExtResource("2_ysgtf")
-upper_fade = 0.00437359
-lower_fade = 0.00226391
-cull_mask = 1048561
+texture = ExtResource("2_ysgtf")
+enable_fade = false
+metadata/_custom_type_script = "uid://feckn7f3pmud"

@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=15 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
 [ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
+[ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="6_o06y3"]
+[ext_resource type="Shader" uid="uid://bjlegpxaj7rk6" path="res://Shaders/ps1_post_process.gdshader" id="7_o06y3"]
 [ext_resource type="Script" uid="uid://cpyb1usx3trmf" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
-[ext_resource type="Shader" uid="uid://c4un4cjrb2g0b" path="res://Scripts/pixelTest.gdshader" id="12_187ri"]
 [ext_resource type="PackedScene" uid="uid://ojjpjejrdl2w" path="res://Scenes/ObstacleObjects/obstacle_object1.tscn" id="13_e0ngr"]
 
 [sub_resource type="Curve3D" id="Curve3D_4sx3n"]
@@ -17,14 +18,26 @@ point_count = 8
 [sub_resource type="BoxMesh" id="BoxMesh_p5sc6"]
 
 [sub_resource type="Environment" id="Environment_5ukr8"]
+background_mode = 1
+background_color = Color(0.408329, 0.408329, 0.408329, 1)
+background_energy_multiplier = 2.07
+tonemap_exposure = 0.85
+fog_light_color = Color(0.762619, 0.785812, 0.822258, 1)
+adjustment_enabled = true
+adjustment_brightness = 0.91
+adjustment_contrast = 1.08
+adjustment_saturation = 1.14
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_o06y3"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hgpy0"]
 load_path = "res://.godot/imported/stain1.png-f390788865b5c5a0cd38271911dc98fd.ctex"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_k7l5f"]
-shader = ExtResource("12_187ri")
-shader_parameter/x_pixel_size = 0
-shader_parameter/y_pixel_size = 0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o06y3"]
+shader = ExtResource("7_o06y3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k7acu"]
+shader = ExtResource("7_o06y3")
 
 [node name="World" type="Node3D"]
 
@@ -32,7 +45,7 @@ shader_parameter/y_pixel_size = 0
 unique_name_in_owner = true
 script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
-road_speed = 7.0
+road_speed = 5.0
 player_scene = ExtResource("3_w7hke")
 increase_boxes_per_interval = 30
 
@@ -69,14 +82,17 @@ skeleton = NodePath("../Camera3D")
 [node name="Camera3D" type="Camera3D" parent="MainLoop"]
 transform = Transform3D(0.71934, 0.509692, -0.47198, 0, 0.679441, 0.73373, 0.694658, -0.527801, 0.488749, -1.061, 4.696, 5.661)
 environment = SubResource("Environment_5ukr8")
+attributes = SubResource("CameraAttributesPractical_o06y3")
 fov = 70.0
 size = 7.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="MainLoop"]
 transform = Transform3D(0.870337, 0.290878, -0.39737, 0, 0.806915, 0.590668, 0.492456, -0.514081, 0.702288, -0.203626, 2.62001, 7.03562)
 shadow_enabled = true
-directional_shadow_mode = 1
-directional_shadow_max_distance = 300.0
+shadow_bias = 3.082
+directional_shadow_mode = 0
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 30.0
 
 [node name="RoadsStructure" type="Node3D" parent="MainLoop"]
 
@@ -97,12 +113,24 @@ lower_fade = 0.00226391
 [node name="ObstacleObject" parent="road_exp_1" instance=ExtResource("13_e0ngr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46693, 0.608525, 2.59738)
 
+[node name="BloodStainsController" parent="road_exp_1" instance=ExtResource("6_o06y3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.835931, 0.320168, 1.70693)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
+material = SubResource("ShaderMaterial_o06y3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
-follow_viewport_enabled = true
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource("ShaderMaterial_k7l5f")
+material = SubResource("ShaderMaterial_k7acu")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

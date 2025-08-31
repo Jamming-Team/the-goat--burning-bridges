@@ -224,7 +224,6 @@ text = "HELP"
 type = 1
 
 [node name="HowToPlay" type="CenterContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -263,14 +262,29 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = ExtResource("2_e707p")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 focus_mode = 2
 theme_override_colors/default_color = Color(0.686275, 0.686275, 0.686275, 1)
 theme_override_constants/outline_size = 7
 theme_override_fonts/normal_font = ExtResource("3_f1fl4")
-theme_override_font_sizes/normal_font_size = 32
-text = "ghgh"
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "You are [shake rate=20.0 level=5 connected=1][color=red]BLEED[/color]ing![/shake].
+Quickly! Collect those blood bottles!
+But beware of boxes as they will damage you on impact
+
+[b]Controlls[/b]:
+A/D to move to sides
+Space to jump - hold it to fly longer
+
+
+"
 selection_enabled = true
 
 [node name="Button3" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
@@ -279,6 +293,7 @@ text = "UNDRSTD"
 type = 2
 
 [node name="PostGame" type="CenterContainer" parent="." node_paths=PackedStringArray("label_time", "label_distance", "label_boxes", "label_bottles")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

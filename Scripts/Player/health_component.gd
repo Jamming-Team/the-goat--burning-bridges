@@ -11,11 +11,19 @@ extends Node
 		current = clamp(value, 0, max_value)
 		GameSignals.health_changed.emit(current)
 
-	
+var _is_active: bool
+
+func start_it(flag: bool):
+	if flag:
+		current = max_value
+		_is_active = true
+	else:
+		_is_active = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	current -= depletion_speed * delta;
+	if _is_active:
+		current -= depletion_speed * delta;
 	#print_debug(current)
 
 func take_hit_damage():

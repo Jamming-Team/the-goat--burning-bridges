@@ -4,4 +4,10 @@
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
-[node name="Control" parent="." instance=ExtResource("1_doe6o")]
+[node name="Control" parent="." node_paths=PackedStringArray("_views") instance=ExtResource("1_doe6o")]
+_views = {
+0: NodePath("MainView"),
+1: NodePath("HowToPlay"),
+2: NodePath("Action"),
+3: NodePath("PostGame")
+}

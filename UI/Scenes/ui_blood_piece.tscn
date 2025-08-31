@@ -1,0 +1,82 @@
+[gd_scene load_steps=10 format=3 uid="uid://43tdo6kgr6wb"]
+
+[ext_resource type="Texture2D" uid="uid://bajdtkd1r4r1e" path="res://Sprites/BloodStains/stain3.png" id="1_f8t4q"]
+[ext_resource type="Texture2D" uid="uid://brumqqioo2ac7" path="res://Sprites/BloodStains/stain1.png" id="2_3dcrt"]
+[ext_resource type="Texture2D" uid="uid://c28xxb0i5e3an" path="res://Sprites/BloodStains/stain2.png" id="3_yfror"]
+[ext_resource type="Texture2D" uid="uid://k4eddawt3po2" path="res://Sprites/BloodStains/stain4.png" id="4_rw6h3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f8t4q"]
+
+[sub_resource type="Animation" id="Animation_qhxh2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_yfror")]
+}
+
+[sub_resource type="Animation" id="Animation_r2vy3"]
+resource_name = "new_animation"
+loop_mode = 1
+step = 30.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_3dcrt"), ExtResource("1_f8t4q"), ExtResource("3_yfror"), ExtResource("4_rw6h3")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_017wa"]
+_data = {
+&"RESET": SubResource("Animation_qhxh2"),
+&"new_animation": SubResource("Animation_r2vy3")
+}
+
+[sub_resource type="GDScript" id="GDScript_f8t4q"]
+script/source = "extends AnimationPlayer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	#current_animation = \"new_animation\"
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="BloodPiece" type="PanelContainer"]
+offset_right = 64.0
+offset_bottom = 64.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+theme_override_styles/panel = SubResource("StyleBoxEmpty_f8t4q")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("3_yfror")
+stretch_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_017wa")
+}
+autoplay = "new_animation"
+speed_scale = 1.5
+script = SubResource("GDScript_f8t4q")

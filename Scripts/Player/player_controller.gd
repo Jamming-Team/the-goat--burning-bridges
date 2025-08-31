@@ -16,7 +16,18 @@ var cur_row_ind : int
 @onready var health_component : HealthComponent = $HealthComponent
 @onready var movement_component : MovementComponent = $MovementComponent
 @onready var input_component : InputComponent = $InputComponent
+@onready var blood_stains_component : BloodStrainsComponent = $BloodStrainsComponent
 
+
+func start_it(flag: bool):
+	if flag:
+		blood_stains_component.start_it(true)
+		health_component.start_it(true)
+	else:
+		blood_stains_component.start_it(false)
+		health_component.start_it(false)
+		
+		
 
 func _ready() -> void:
 	initial_player_y = position.y

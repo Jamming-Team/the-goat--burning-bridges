@@ -23,7 +23,7 @@ var queue : Array[RoadPiece] = []
 var cur_road : RoadPiece:
 	get:
 		return queue[_cur_road_ind-1] as RoadPiece
-var max_queue_size = 10
+var max_queue_size = 4
 var min_behind : int = 2
 var _front_position : float
 var _cur_road_ind : int
@@ -57,7 +57,7 @@ func finish_queue_front():
 func _ready():
 	#print (road_maker.road_width)
 	#obstacle_placer.place_obstacles(road_maker._cells_matrix, road_maker.road_width, road_maker.road_length)
-	_player = player_scene.instantiate() as Node3D
+	_player = player_scene.instantiate() as PlayerController
 	init_road()
 	_player.position = Vector3(0, 0, (queue[_cur_road_ind] as RoadPiece).get_current_row_coords(_player.cur_row_ind))
 	add_child(_player)
@@ -78,15 +78,24 @@ func start_game():
 	GameSignals.bottles_collected_counter = 0
 	GameSignals.game_total_time = 0
 	GameSignals.game_total_distance = 0
+	boxes_to_spawn_modificator = 0
+	bottles_to_spawn_modificator = 0
+	
+	_player.start_it(true)
 	
 	increase_difficulty_interval.start()
 	_game_is_in_process = true
+	
 
 func stop_game():
 	boxes_to_spawn_modificator = -10
 	bottles_to_spawn_modificator = -10
 	increase_difficulty_interval.stop()
+	
+	_player.start_it(false)
+	
 	_game_is_in_process = false
+	
 	for road in queue:
 		road.destroy_everything()
 
@@ -100,8 +109,8 @@ func update_difficulty():
 var move_for_value : float
 
 func _process(delta):
-	if (Input.is_action_just_pressed("jump")):
-		stop_game()
+	#if (Input.is_action_just_pressed("jump")):
+		#stop_game()
 
 	if (_cur_road_remaining_length > 0.0):
 		move_for_value = road_speed * delta

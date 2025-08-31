@@ -165,6 +165,7 @@ metadata/_custom_type_script = "uid://nhja3g8iisuv"
 _views = {
 0: NodePath("MainView"),
 1: NodePath("HowToPlay"),
+2: NodePath("Action"),
 3: NodePath("PostGame")
 }
 
@@ -174,7 +175,6 @@ script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
 road_speed = 5.0
 player_scene = ExtResource("3_w7hke")
-increase_boxes_per_interval = 30
 
 [node name="Path3D3" type="Path3D" parent="MainLoop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)

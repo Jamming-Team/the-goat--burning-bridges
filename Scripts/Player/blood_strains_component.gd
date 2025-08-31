@@ -8,6 +8,12 @@ extends Node3D
 @onready var _raycast : RayCast3D = $RayCast3D
 
 
+func start_it(flag: bool):
+	if flag:
+		_spawn_stain_cd.start()
+	else:
+		_spawn_stain_cd.stop()
+
 func _ready() -> void:
 	_spawn_stain_cd.timeout.connect(_spawn_stain)
 
@@ -24,5 +30,8 @@ func _spawn_stain():
 	var collider_node = _raycast.get_collider() as Node
 	collider_node.add_child(decal)
 	decal.global_position = _raycast.get_collision_point()
-	decal.global_position.y -= 0.3
+	if _raycast.get_collision_point().y <= 0.1:
+		decal.global_position.y -= 0.3
+	
+	#print()
 	

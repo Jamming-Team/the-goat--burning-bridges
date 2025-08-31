@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=16 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
@@ -35,9 +35,30 @@ load_path = "res://.godot/imported/stain1.png-f390788865b5c5a0cd38271911dc98fd.c
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o06y3"]
 shader = ExtResource("7_o06y3")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k7acu"]
 shader = ExtResource("7_o06y3")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
+
+[sub_resource type="GDScript" id="GDScript_o06y3"]
+resource_name = "MakeTexture"
+script/source = "# Suppose your node hierarchy is:
+# - Node2D
+#   - ScreenViewport (Viewport)
+#   - ColorRect (with your shader)
+
+extends SubViewport
+
+@export var rect : ColorRect
+
+func _ready():
+	var viewport_tex = get_texture()
+	var mat = rect.material as ShaderMaterial
+	mat.set_shader_parameter(\"my_custom_screen\", viewport_tex)
+"
 
 [node name="World" type="Node3D"]
 
@@ -136,3 +157,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" node_paths=PackedStringArray("rect")]
+transparent_bg = true
+size = Vector2i(640, 480)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+script = SubResource("GDScript_o06y3")
+rect = NodePath("../../CanvasLayer2/ColorRect")
+
+[node name="Camera3D2" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.71934, 0.509692, -0.471979, 0, 0.679441, 0.73373, 0.694658, -0.527802, 0.488749, -1.061, 4.696, 5.661)
+environment = SubResource("Environment_5ukr8")
+attributes = SubResource("CameraAttributesPractical_o06y3")
+fov = 70.0
+size = 7.0

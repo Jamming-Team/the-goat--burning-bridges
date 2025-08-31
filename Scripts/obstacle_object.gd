@@ -3,6 +3,9 @@ extends Node3D
 
 signal player_affected_obstacle(ObstacleObject)
 
+@export var one_shot_audio_scene: PackedScene
+@export var hit_stream: AudioStream
+
 @export_range(0.1, 1) var hitbox_multiplier : float = 0.8
 @export var position_type : Constants.PositionType
 var _hitbox_component : HitboxComponent
@@ -28,3 +31,9 @@ func _on_exited_obstacle(area : Area3D) -> void:
 	if area.is_in_group("Player"):
 		player_affected_obstacle.emit(null)
 		return
+
+func shot_sound(node: Node3D):
+	var audio = one_shot_audio_scene.instantiate() as OneShotSound
+	node.add_child(audio)
+	audio.global_position = global_position
+	audio.shot(hit_stream)

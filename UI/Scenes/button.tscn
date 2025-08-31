@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4e1rck6pksfg"]
+[gd_scene load_steps=9 format=3 uid="uid://b4e1rck6pksfg"]
 
 [ext_resource type="FontFile" uid="uid://buqoufx0256an" path="res://UI/fonts/Orbitron-Regular.ttf" id="1_0njq3"]
 [ext_resource type="StyleBox" uid="uid://c82arvu0ey8tp" path="res://UI/ButtonPressStyle.tres" id="2_0njq3"]
 [ext_resource type="StyleBox" uid="uid://c21xqow04buhk" path="res://UI/ButtonHoverStyle.tres" id="3_mn2qy"]
 [ext_resource type="StyleBox" uid="uid://bu0y0qeoh6fnv" path="res://UI/ButtonStyle.tres" id="3_xplul"]
+[ext_resource type="AudioStream" uid="uid://slxu2js31hwu" path="res://Audio/hover1.ogg" id="5_xplul"]
+[ext_resource type="AudioStream" uid="uid://b6ir7d7e34na2" path="res://Audio/button_press.ogg" id="6_d6ie1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0uhn"]
 
@@ -11,15 +13,30 @@
 script/source = "extends Button
 
 
+@export var _hover_sound: AudioStreamPlayer
+@export var _start_press_sound: AudioStreamPlayer
+@export var _stop_press_sound: AudioStreamPlayer
+
 @export var type: Constants.ButtonTypes
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pressed.connect(func(): GameSignals.button_pressed.emit(type))
+	#button_down.connect(func():
+		#_start_press_sound.pitch_scale = 1 + randf() * 0.1
+		#_start_press_sound.play())
+	pressed.connect(func(): 
+		GameSignals.button_pressed.emit(type)
+		_stop_press_sound.pitch_scale = 1 + randf() * 0.01
+		_stop_press_sound.play()
+		)
+	mouse_entered.connect(func():
+		_hover_sound.pitch_scale = 1 + randf() * 0.01
+		_hover_sound.play())
+	
 "
 
-[node name="Button" type="Button"]
+[node name="Button" type="Button" node_paths=PackedStringArray("_hover_sound", "_start_press_sound", "_stop_press_sound")]
 size_flags_vertical = 3
 theme_override_colors/font_hover_color = Color(0.804743, 0.804743, 0.804743, 1)
 theme_override_colors/font_color = Color(0.687215, 0.687215, 0.687215, 1)
@@ -34,3 +51,18 @@ theme_override_styles/pressed = ExtResource("2_0njq3")
 theme_override_styles/normal = ExtResource("3_xplul")
 text = "PLAY"
 script = SubResource("GDScript_jqf55")
+_hover_sound = NodePath("AudioStreamPlayer")
+_start_press_sound = NodePath("AudioStreamPlayer2")
+_stop_press_sound = NodePath("AudioStreamPlayer3")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_xplul")
+bus = &"ui"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_xplul")
+bus = &"ui"
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_d6ie1")
+bus = &"ui"

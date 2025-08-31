@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ot5hi2mfd0ni"]
+[gd_scene load_steps=8 format=3 uid="uid://ot5hi2mfd0ni"]
 
 [ext_resource type="Script" uid="uid://js1tyxwqbo4o" path="res://Scripts/BloodBottle.gd" id="1_rov7m"]
 [ext_resource type="PackedScene" uid="uid://b5xgclofy1bs1" path="res://Scenes/hitbox_component.tscn" id="2_6fn21"]
+[ext_resource type="PackedScene" uid="uid://dajayd2pc2c7y" path="res://Scenes/one_shot_audio.tscn" id="2_ujpw4"]
+[ext_resource type="AudioStream" uid="uid://dfvsres6pf63b" path="res://Audio/bottle.ogg" id="3_ujpw4"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_rov7m"]
 
@@ -14,6 +16,8 @@ albedo_color = Color(1, 0.227451, 0.309804, 0.411765)
 [node name="BloodBottle1" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.509, 0)
 script = ExtResource("1_rov7m")
+one_shot_audio_scene = ExtResource("2_ujpw4")
+hit_stream = ExtResource("3_ujpw4")
 position_type = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

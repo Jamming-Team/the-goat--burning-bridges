@@ -54,6 +54,8 @@ func set_current_bottle(new_bottle : BloodBottle):
 func destroy_current_obstacle():
 #	print(_obstacles_array.size())
 	current_obstacle.player_affected_obstacle.disconnect(set_current_obstacle)
+	current_obstacle.shot_sound(self)
+	
 	_obstacles_array.erase(current_obstacle)
 #	print(_obstacles_array.size())
 	current_obstacle.queue_free()
@@ -62,17 +64,22 @@ func destroy_current_obstacle():
 func destroy_current_bottle():
 	#	print(_obstacles_array.size())
 	current_bottle.player_affected_bottle.disconnect(set_current_bottle)
+	current_bottle.shot_sound(self)
 	_bottles_array.erase(current_bottle)
 	#	print(_obstacles_array.size())
 	current_bottle.queue_free()
 	current_bottle = null
 
 
-func destroy_everything():
+func destroy_everything(flag: bool = true):
 	for box in _obstacles_array:
+		if flag:
+			box.shot_sound(self)
 		box.queue_free()
 	_obstacles_array.clear()
 	
 	for bottle in _bottles_array:
+		#if flag:
+			#bottle.shot_sound(self)
 		bottle.queue_free()
 	_bottles_array.clear()

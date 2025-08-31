@@ -1,6 +1,7 @@
 class_name MainGameLoop
 extends Node3D
 
+
 @export var road_scene : PackedScene
 @export var road_speed : float = 2.0
 @export var roads_array : Array
@@ -66,6 +67,8 @@ func _ready():
 	
 	increase_difficulty_interval.timeout.connect(update_difficulty)
 	stop_game()
+	_game_init_complete = true
+	
 #	_tween = create_tween()
 	#_cur_player_position_type = Constants.PositionType.MIDDLE
 	
@@ -87,6 +90,8 @@ func start_game():
 	_game_is_in_process = true
 	
 
+var _game_init_complete: bool
+
 func stop_game():
 	boxes_to_spawn_modificator = -10
 	bottles_to_spawn_modificator = -10
@@ -96,8 +101,9 @@ func stop_game():
 	
 	_game_is_in_process = false
 	
+	
 	for road in queue:
-		road.destroy_everything()
+		road.destroy_everything(_game_init_complete)
 
 
 func update_difficulty():

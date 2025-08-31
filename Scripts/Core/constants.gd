@@ -1,5 +1,22 @@
 extends Node
 
+enum ButtonTypes
+{
+	Play,
+	HowToPlay,
+	Understood,
+	Quit,
+	Fullscreen
+}
+
+enum ViewTypes
+{
+	Main,
+	HowToPlay,
+	Action,
+	PostGame
+}
+
 enum PositionType
 {
 	HIGH,

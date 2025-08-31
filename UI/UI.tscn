@@ -1,8 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqhyagoikwsn2"]
+[gd_scene load_steps=9 format=3 uid="uid://bqhyagoikwsn2"]
 
 [ext_resource type="Texture2D" uid="uid://b8wtbc4mj4erq" path="res://icon.svg" id="1_q0uhn"]
 [ext_resource type="StyleBox" uid="uid://r2krovfprl0k" path="res://UI/PanelStyle.tres" id="2_e707p"]
+[ext_resource type="FontFile" uid="uid://buqoufx0256an" path="res://UI/fonts/Orbitron-Regular.ttf" id="3_f1fl4"]
 [ext_resource type="PackedScene" uid="uid://b4e1rck6pksfg" path="res://UI/Scenes/button.tscn" id="3_q0uhn"]
+[ext_resource type="Texture2D" uid="uid://bajdtkd1r4r1e" path="res://Sprites/BloodStains/stain3.png" id="5_f1fl4"]
+
+[sub_resource type="GDScript" id="GDScript_q0uhn"]
+resource_name = "UIToorController"
+script/source = "extends Control
+
+
+@export var _views: Dictionary[Constants.ViewTypes,Control]
+@export var _initial_view_type: Constants.ViewTypes
+var _cur_view: Control
+
+
+func _ready() -> void:
+	for type in _views:
+		_views[type].visible = false
+	GameSignals.set_view_type.connect(_change_view)
+	_change_view(_initial_view_type)
+
+func _change_view(type: Constants.ViewTypes):
+	if _cur_view:
+		_cur_view.visible = false
+	_cur_view = _views[type]
+	_cur_view.visible = true
+"
 
 [sub_resource type="GDScript" id="GDScript_jqf55"]
 script/source = "extends Button
@@ -19,7 +44,19 @@ func _process(delta: float) -> void:
 	pass
 "
 
-[node name="Control" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jqf55"]
+bg_color = Color(0.408329, 0.408329, 0.408329, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.654232, 0.654232, 0.654232, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[node name="Control" type="Control" node_paths=PackedStringArray("_views")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,6 +64,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = SubResource("GDScript_q0uhn")
+_views = {
+0: NodePath("MainView"),
+1: NodePath("HowToPlay"),
+3: NodePath("PostGame")
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 visible = false
@@ -41,6 +84,7 @@ theme_override_constants/margin_top = 200
 
 [node name="Button" type="Button" parent="."]
 visible = false
+layout_mode = 0
 offset_left = 81.0
 offset_top = 73.0
 offset_right = 193.0
@@ -68,6 +112,7 @@ grow_vertical = 2
 color = Color(0.41598, 0.41598, 0.41598, 1)
 
 [node name="MainView" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -114,3 +159,241 @@ text = "GO FSCR"
 [node name="Button3" parent="MainView/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
 layout_mode = 2
 text = "HELP"
+type = 1
+
+[node name="HowToPlay" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HowToPlay"]
+layout_mode = 2
+
+[node name="PanelContainer" type="VBoxContainer" parent="HowToPlay/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="PanelContainer" type="PanelContainer" parent="HowToPlay/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(301.795, 300)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_e707p")
+
+[node name="MarginContainer" type="MarginContainer" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(301.795, 300)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_e707p")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/default_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/normal_font = ExtResource("3_f1fl4")
+theme_override_font_sizes/normal_font_size = 32
+text = "ghgh"
+selection_enabled = true
+
+[node name="Button3" parent="HowToPlay/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
+layout_mode = 2
+text = "UNDRSTD"
+type = 2
+
+[node name="PostGame" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PostGame"]
+layout_mode = 2
+
+[node name="PanelContainer" type="VBoxContainer" parent="PostGame/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="PanelContainer" type="PanelContainer" parent="PostGame/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(301.795, 300)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_e707p")
+
+[node name="MarginContainer" type="MarginContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(301.795, 300)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_e707p")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/default_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/normal_font = ExtResource("3_f1fl4")
+theme_override_font_sizes/normal_font_size = 32
+text = "ghgh"
+selection_enabled = true
+
+[node name="Button3" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
+layout_mode = 2
+text = "GOOD"
+type = 3
+
+[node name="Action" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="Panel" parent="Action"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -71.0
+offset_top = 37.0
+offset_right = -681.0
+offset_bottom = -43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jqf55")
+
+[node name="GridContainer" type="GridContainer" parent="Action/ColorRect"]
+layout_mode = 0
+offset_top = -4.0
+offset_right = 64.0
+offset_bottom = 402.0
+scale = Vector2(0.47, 1)
+theme_override_constants/v_separation = -26
+
+[node name="TextureRect" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect7" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect8" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect9" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="TextureRect10" type="TextureRect" parent="Action/ColorRect/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_f1fl4")
+stretch_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Action"]
+layout_mode = 2
+offset_right = 640.0
+offset_bottom = 480.0
+
+[node name="PanelContainer" type="VBoxContainer" parent="Action/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="PanelContainer" type="PanelContainer" parent="Action/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(301.795, 300)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_e707p")
+
+[node name="MarginContainer" type="MarginContainer" parent="Action/MarginContainer/PanelContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Action/MarginContainer/PanelContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Action/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(301.795, 300)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_e707p")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Action/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/default_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/normal_font = ExtResource("3_f1fl4")
+theme_override_font_sizes/normal_font_size = 32
+text = "ghgh"
+selection_enabled = true
+
+[node name="Button3" parent="Action/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
+layout_mode = 2
+text = "GOOD"
+type = 3

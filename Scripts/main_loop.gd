@@ -65,7 +65,7 @@ func _ready():
 	#print(_player.get_groups())
 	
 	increase_difficulty_interval.timeout.connect(update_difficulty)
-	start_game()
+	stop_game()
 #	_tween = create_tween()
 	#_cur_player_position_type = Constants.PositionType.MIDDLE
 	

@@ -1,6 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=22 format=3 uid="uid://cd854e6nrs30q"]
 
+[ext_resource type="Script" uid="uid://x0l28xej200r" path="res://Scripts/Core/StateMachine.gd" id="1_0fj1v"]
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
+[ext_resource type="Script" uid="uid://nhja3g8iisuv" path="res://Scripts/Core/State.gd" id="2_ikia7"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
 [ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
 [ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="6_o06y3"]
@@ -8,6 +10,70 @@
 [ext_resource type="PackedScene" uid="uid://bqhyagoikwsn2" path="res://UI/UI.tscn" id="8_k7acu"]
 [ext_resource type="Script" uid="uid://cpyb1usx3trmf" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
 [ext_resource type="PackedScene" uid="uid://ojjpjejrdl2w" path="res://Scenes/ObstacleObjects/obstacle_object1.tscn" id="13_e0ngr"]
+
+[sub_resource type="GDScript" id="GDScript_0fj1v"]
+resource_name = "main_view"
+script/source = "extends State
+
+@export var how_to_play_state: State
+@export var action_state: State
+
+var _showed_initial_tutorial: bool
+
+func _on_button_pressed(type : Constants.ButtonTypes):
+	match type:
+		Constants.ButtonTypes.Play:
+			if !_showed_initial_tutorial:
+				_showed_initial_tutorial = true
+				how_to_play_state.go_to_action = true
+				_state_machine.change_state(how_to_play_state)
+			else:
+				_state_machine.change_state(action_state)
+		Constants.ButtonTypes.Fullscreen:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN) 
+		Constants.ButtonTypes.HowToPlay:
+			_state_machine.change_state(how_to_play_state)
+"
+
+[sub_resource type="GDScript" id="GDScript_ikia7"]
+resource_name = "HoToPlayState"
+script/source = "extends State
+
+@export var main_view_state: State
+@export var action_state: State
+
+var go_to_action: bool
+
+func _on_button_pressed(type : Constants.ButtonTypes):
+	match type:
+		Constants.ButtonTypes.Understood:
+			if (go_to_action):
+				go_to_action = false
+				_state_machine.change_state(action_state)
+			else:
+				_state_machine.change_state(main_view_state)
+"
+
+[sub_resource type="GDScript" id="GDScript_7yui6"]
+resource_name = "action_state"
+script/source = "extends State
+
+@export var post_game_state: State
+@export var main_loop: MainGameLoop
+
+func _on_enter():
+	super._on_enter()
+	main_loop.start_game()
+	GameSignals.game_over.connect(_on_game_over)
+
+func _on_exit():
+	GameSignals.game_over.disconnect(_on_game_over)
+	super._on_exit()
+
+func _on_game_over():
+	main_loop.stop_game()
+	_state_machine.change_state(post_game_state)
+"
 
 [sub_resource type="Curve3D" id="Curve3D_4sx3n"]
 _data = {
@@ -63,9 +129,44 @@ func _ready():
 
 [node name="World" type="Node3D"]
 
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("states")]
+script = ExtResource("1_0fj1v")
+states = [NodePath("Main"), NodePath("HowToPlay"), NodePath("Action"), NodePath("PostGame")]
+metadata/_custom_type_script = "uid://x0l28xej200r"
+
+[node name="Main" type="Node" parent="StateMachine" node_paths=PackedStringArray("how_to_play_state", "action_state")]
+script = SubResource("GDScript_0fj1v")
+how_to_play_state = NodePath("../HowToPlay")
+action_state = NodePath("../Action")
+metadata/_custom_type_script = "uid://nhja3g8iisuv"
+
+[node name="HowToPlay" type="Node" parent="StateMachine" node_paths=PackedStringArray("main_view_state", "action_state")]
+script = SubResource("GDScript_ikia7")
+main_view_state = NodePath("../Main")
+action_state = NodePath("../Action")
+_view_type = 1
+metadata/_custom_type_script = "uid://nhja3g8iisuv"
+
+[node name="Action" type="Node" parent="StateMachine" node_paths=PackedStringArray("post_game_state", "main_loop")]
+script = SubResource("GDScript_7yui6")
+post_game_state = NodePath("../PostGame")
+main_loop = NodePath("../../MainLoop")
+_view_type = 2
+metadata/_custom_type_script = "uid://nhja3g8iisuv"
+
+[node name="PostGame" type="Node" parent="StateMachine"]
+script = ExtResource("2_ikia7")
+_view_type = 3
+metadata/_custom_type_script = "uid://nhja3g8iisuv"
+
 [node name="CanvasLayer3" type="CanvasLayer" parent="."]
 
-[node name="Control" parent="CanvasLayer3" instance=ExtResource("8_k7acu")]
+[node name="Control" parent="CanvasLayer3" node_paths=PackedStringArray("_views") instance=ExtResource("8_k7acu")]
+_views = {
+0: NodePath("MainView"),
+1: NodePath("HowToPlay"),
+3: NodePath("PostGame")
+}
 
 [node name="MainLoop" type="Node3D" parent="."]
 unique_name_in_owner = true

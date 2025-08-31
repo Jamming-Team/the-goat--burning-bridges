@@ -8,7 +8,7 @@
 render_priority = 0
 shader = ExtResource("1_5dxmd")
 shader_parameter/albedo = ExtResource("2_ljkxu")
-shader_parameter/modulate = Color(1, 1, 1, 0.470588)
+shader_parameter/modulate = Color(0.873298, 0.873298, 0.873298, 0.470588)
 shader_parameter/albedo_mix = 1.0
 shader_parameter/scale_mod = Vector3(1.42857, 1.42857, 1.42857)
 shader_parameter/cube_half_size = Vector3(0.35, 0.35, 0.35)
@@ -30,6 +30,6 @@ Skeleton = null
 script = ExtResource("2_0y2pn")
 size = Vector3(0.7, 0.7, 0.7)
 texture = ExtResource("2_ljkxu")
-modulate = Color(1, 1, 1, 0.470588)
+modulate = Color(0.873298, 0.873298, 0.873298, 0.470588)
 enable_fade = false
 metadata/_custom_type_script = "uid://feckn7f3pmud"

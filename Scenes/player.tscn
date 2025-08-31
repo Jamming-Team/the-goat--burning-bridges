@@ -56,7 +56,7 @@ metadata/_custom_type_script = "uid://dp1g8dr43grc6"
 
 [node name="MovementComponent" type="Node" parent="."]
 script = ExtResource("10_tx1dd")
-_max_jump_height = 1.5
+_max_jump_height = 1.25
 _gravity = 8.0
 _max_jump_time = 0.7
 _min_jump_time = 0.3

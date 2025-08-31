@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ot5hi2mfd0ni"]
+[gd_scene load_steps=10 format=3 uid="uid://ot5hi2mfd0ni"]
 
 [ext_resource type="Script" uid="uid://js1tyxwqbo4o" path="res://Scripts/BloodBottle.gd" id="1_rov7m"]
 [ext_resource type="PackedScene" uid="uid://b5xgclofy1bs1" path="res://Scenes/hitbox_component.tscn" id="2_6fn21"]
 [ext_resource type="PackedScene" uid="uid://dajayd2pc2c7y" path="res://Scenes/one_shot_audio.tscn" id="2_ujpw4"]
 [ext_resource type="AudioStream" uid="uid://wirsh31rgpkr" path="res://Audio/bottle2.ogg" id="3_ujpw4"]
+[ext_resource type="PackedScene" uid="uid://3npknyyw3qx3" path="res://models/bottle2.glb" id="5_3ejdh"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_rov7m"]
 
@@ -12,6 +13,19 @@ transparency = 1
 albedo_color = Color(1, 0.227451, 0.309804, 0.411765)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_w57sa"]
+
+[sub_resource type="GDScript" id="GDScript_3ejdh"]
+resource_name = "rotate_bottle"
+script/source = "extends Node3D
+
+
+@export var rotation_speed: float = 100.0
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	rotate_y(rotation_speed * delta)
+"
 
 [node name="BloodBottle1" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.509, 0)
@@ -22,6 +36,7 @@ position_type = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_rov7m")
 surface_material_override/0 = SubResource("StandardMaterial3D_6fn21")
 
@@ -30,3 +45,10 @@ collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
 shape = SubResource("SphereShape3D_w57sa")
+
+[node name="Graphics" type="Node3D" parent="."]
+script = SubResource("GDScript_3ejdh")
+rotation_speed = 7.0
+
+[node name="bottle2" parent="Graphics" instance=ExtResource("5_3ejdh")]
+transform = Transform3D(0.2, 0, 0, 0, 0.170146, -0.105121, 0, 0.105121, 0.170146, 0, 0, 0)

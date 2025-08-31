@@ -72,7 +72,7 @@ func place_bottles(cells_matrix : Dictionary, road_width : int, road_length : in
 		if (cur_cell.blood_bottle == null):
 			var scene_instance: BloodBottle = bottle_scenes[randi() % bottle_scenes.size()].instantiate() as BloodBottle
 			scene_instance.scale = cur_cell.scale
-			scene_instance.position = cur_cell.position if cur_cell.obstacle_object == null else cur_cell.position + Vector3(0,1.5,0)
+			scene_instance.position = cur_cell.position if cur_cell.obstacle_object == null else cur_cell.position + Vector3(0,1.25,0)
 			scene_instance.position_type = Constants.PositionType.MIDDLE if cur_cell.obstacle_object == null else Constants.PositionType.HIGH 
 			cur_cell.blood_bottle = scene_instance
 			add_child(scene_instance)

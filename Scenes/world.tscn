@@ -1,8 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=24 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://x0l28xej200r" path="res://Scripts/Core/StateMachine.gd" id="1_0fj1v"]
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
+[ext_resource type="AudioStream" uid="uid://djjjkad3nmcc0" path="res://Audio/music_1.ogg" id="2_0fj1v"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
+[ext_resource type="AudioStream" uid="uid://bytydh16op8lc" path="res://Audio/music_2.ogg" id="3_ikia7"]
 [ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
 [ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="6_o06y3"]
 [ext_resource type="Shader" uid="uid://bjlegpxaj7rk6" path="res://Shaders/ps1_post_process.gdshader" id="7_o06y3"]
@@ -60,13 +62,24 @@ script/source = "extends State
 @export var post_game_state: State
 @export var main_loop: MainGameLoop
 
+@export var player: AudioStreamPlayer
+@export var track_calm: AudioStream
+@export var track_action: AudioStream
+
+
 func _on_enter():
 	super._on_enter()
+	player.stop()
+	player.stream = track_action
+	player.play()
 	main_loop.start_game()
 	GameSignals.game_over.connect(_on_game_over)
 
 func _on_exit():
 	GameSignals.game_over.disconnect(_on_game_over)
+	player.stop()
+	player.stream = track_calm
+	player.play()
 	super._on_exit()
 
 func _on_game_over():
@@ -160,12 +173,20 @@ action_state = NodePath("../Action")
 _view_type = 1
 metadata/_custom_type_script = "uid://nhja3g8iisuv"
 
-[node name="Action" type="Node" parent="StateMachine" node_paths=PackedStringArray("post_game_state", "main_loop")]
+[node name="Action" type="Node" parent="StateMachine" node_paths=PackedStringArray("post_game_state", "main_loop", "player")]
 script = SubResource("GDScript_7yui6")
 post_game_state = NodePath("../PostGame")
 main_loop = NodePath("../../MainLoop")
+player = NodePath("AudioStreamPlayer")
+track_calm = ExtResource("2_0fj1v")
+track_action = ExtResource("3_ikia7")
 _view_type = 2
 metadata/_custom_type_script = "uid://nhja3g8iisuv"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="StateMachine/Action"]
+stream = ExtResource("2_0fj1v")
+autoplay = true
+bus = &"music"
 
 [node name="PostGame" type="Node" parent="StateMachine" node_paths=PackedStringArray("main_view_state")]
 script = SubResource("GDScript_5v1tr")

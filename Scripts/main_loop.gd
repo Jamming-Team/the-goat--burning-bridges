@@ -130,6 +130,7 @@ func _process(delta):
 	
 	if (queue[_cur_road_ind-1] as RoadPiece).current_obstacle != null && _player.cur_player_position_type == (queue[_cur_road_ind-1] as RoadPiece).current_obstacle.position_type:
 		(queue[_cur_road_ind-1] as RoadPiece).destroy_current_obstacle()
+		_player.blood_stains_component.split_alot()
 		_player.health_component.take_hit_damage()
 		_player.movement_component.shake_x()
 		GameSignals.boxes_hit_counter += 1

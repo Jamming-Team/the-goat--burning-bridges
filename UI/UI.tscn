@@ -192,6 +192,7 @@ grow_vertical = 2
 color = Color(0.41598, 0.41598, 0.41598, 1)
 
 [node name="MainView" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -302,7 +303,6 @@ text = "HELP"
 type = 1
 
 [node name="HowToPlay" type="CenterContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -360,7 +360,7 @@ But beware of boxes as they will damage you on impact
 
 [b]Controlls[/b]:
 A/D to move to sides
-Space to jump - hold it to fly longer
+Space to jump - [color=yellow][font_size=26]hold[/font_size][/color] it to fly longer
 
 
 "

@@ -113,15 +113,15 @@ point_count = 8
 [sub_resource type="Environment" id="Environment_5ukr8"]
 background_mode = 1
 background_color = Color(0.408329, 0.408329, 0.408329, 1)
-background_energy_multiplier = 2.07
-tonemap_exposure = 0.85
+background_energy_multiplier = 0.9
+tonemap_exposure = 0.8
 fog_light_color = Color(0.762619, 0.785812, 0.822258, 1)
 adjustment_enabled = true
-adjustment_brightness = 0.91
-adjustment_contrast = 1.08
-adjustment_saturation = 1.14
+adjustment_contrast = 1.1
+adjustment_saturation = 1.1
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_o06y3"]
+auto_exposure_enabled = true
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hgpy0"]
 load_path = "res://.godot/imported/stain1.png-f390788865b5c5a0cd38271911dc98fd.ctex"
@@ -187,6 +187,7 @@ metadata/_custom_type_script = "uid://nhja3g8iisuv"
 stream = ExtResource("2_0fj1v")
 autoplay = true
 bus = &"music"
+parameters/looping = true
 
 [node name="PostGame" type="Node" parent="StateMachine" node_paths=PackedStringArray("main_view_state")]
 script = SubResource("GDScript_5v1tr")

@@ -10,5 +10,5 @@ signal button_pressed(type: Constants.ButtonTypes)
 
 var boxes_hit_counter : int
 var bottles_collected_counter : int
-var game_total_time : int
-var game_total_distance : int
+var game_total_time : float
+var game_total_distance : float

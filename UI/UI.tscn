@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqhyagoikwsn2"]
+[gd_scene load_steps=13 format=3 uid="uid://bqhyagoikwsn2"]
 
 [ext_resource type="Texture2D" uid="uid://b8wtbc4mj4erq" path="res://icon.svg" id="1_q0uhn"]
 [ext_resource type="StyleBox" uid="uid://r2krovfprl0k" path="res://UI/PanelStyle.tres" id="2_e707p"]
@@ -43,6 +43,38 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 "
+
+[sub_resource type="GDScript" id="GDScript_byuxr"]
+resource_name = "PostGameView"
+script/source = "extends CenterContainer
+
+@export var label_time: Label
+@export var label_distance: Label
+@export var label_boxes: Label
+@export var label_bottles: Label
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	visibility_changed.connect(_set_data)
+
+func _set_data():
+	label_time.text =  \"TOTAL GAME TIME: \" + str(int(floor(GameSignals.game_total_time))) + \" sec\"
+	label_distance.text =  \"TOTAL DISTANCE RAN: \" + str(int(floor(GameSignals.game_total_distance))) + \"m\"
+	label_boxes.text =  \"BOXES HIT: \" + str(GameSignals.boxes_hit_counter)
+	label_bottles.text =  \"BLOOD COLLECTED: \" + str(GameSignals.bottles_collected_counter)
+	
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f1fl4"]
+bg_color = Color(0.165605, 0.339114, 0.228607, 0.784314)
+border_width_bottom = 5
+border_color = Color(0.309804, 0.686275, 0.498039, 0.980392)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jqf55"]
 
@@ -184,6 +216,7 @@ layout_mode = 2
 [node name="Button2" parent="MainView/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
 layout_mode = 2
 text = "GO FSCR"
+type = 4
 
 [node name="Button3" parent="MainView/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
 layout_mode = 2
@@ -245,14 +278,18 @@ layout_mode = 2
 text = "UNDRSTD"
 type = 2
 
-[node name="PostGame" type="CenterContainer" parent="."]
-visible = false
+[node name="PostGame" type="CenterContainer" parent="." node_paths=PackedStringArray("label_time", "label_distance", "label_boxes", "label_bottles")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = SubResource("GDScript_byuxr")
+label_time = NodePath("MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/RichTextLabel2")
+label_distance = NodePath("MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/RichTextLabel3")
+label_boxes = NodePath("MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/RichTextLabel4")
+label_bottles = NodePath("MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer/RichTextLabel5")
 
 [node name="MarginContainer" type="MarginContainer" parent="PostGame"]
 layout_mode = 2
@@ -285,15 +322,68 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_styles/panel = ExtResource("2_e707p")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f1fl4")
+
+[node name="CenterContainer" type="CenterContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/PanelContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel6" type="Label" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/PanelContainer/CenterContainer"]
 layout_mode = 2
 focus_mode = 2
-theme_override_colors/default_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
 theme_override_constants/outline_size = 7
-theme_override_fonts/normal_font = ExtResource("3_f1fl4")
-theme_override_font_sizes/normal_font_size = 32
-text = "ghgh"
-selection_enabled = true
+theme_override_fonts/font = ExtResource("3_f1fl4")
+theme_override_font_sizes/font_size = 30
+text = "GAME IS OVER"
+
+[node name="MarginContainer" type="MarginContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel2" type="Label" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("3_f1fl4")
+theme_override_font_sizes/font_size = 17
+text = "TOTAL GAME TIME:"
+
+[node name="RichTextLabel3" type="Label" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("3_f1fl4")
+theme_override_font_sizes/font_size = 17
+text = "TOTAL DISTANCE RAN:"
+
+[node name="RichTextLabel4" type="Label" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("3_f1fl4")
+theme_override_font_sizes/font_size = 17
+text = "BOXES HIT:"
+
+[node name="RichTextLabel5" type="Label" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("3_f1fl4")
+theme_override_font_sizes/font_size = 17
+text = "BLOOD COLLECTED:"
 
 [node name="Button3" parent="PostGame/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
 layout_mode = 2
@@ -301,6 +391,7 @@ text = "GOOD"
 type = 3
 
 [node name="Action" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

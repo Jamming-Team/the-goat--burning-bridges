@@ -10,6 +10,8 @@ extends Node
 	set(value):
 		current = clamp(value, 0, max_value)
 		GameSignals.health_changed.emit(current)
+		if current == 0:
+			GameSignals.game_over.emit()
 
 var _is_active: bool
 
@@ -31,4 +33,3 @@ func take_hit_damage():
 
 func take_bottle_heal():
 	current += bottle_heal
-	print_debug("heal")

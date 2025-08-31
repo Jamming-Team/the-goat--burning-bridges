@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=17 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" uid="uid://vy2sxot5q2pq" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
 [ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
 [ext_resource type="PackedScene" uid="uid://six2toflebar" path="res://Scenes/blood_stains_decal.tscn" id="6_o06y3"]
 [ext_resource type="Shader" uid="uid://bjlegpxaj7rk6" path="res://Shaders/ps1_post_process.gdshader" id="7_o06y3"]
+[ext_resource type="PackedScene" uid="uid://bqhyagoikwsn2" path="res://UI/UI.tscn" id="8_k7acu"]
 [ext_resource type="Script" uid="uid://cpyb1usx3trmf" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
 [ext_resource type="PackedScene" uid="uid://ojjpjejrdl2w" path="res://Scenes/ObstacleObjects/obstacle_object1.tscn" id="13_e0ngr"]
 
@@ -61,6 +62,10 @@ func _ready():
 "
 
 [node name="World" type="Node3D"]
+
+[node name="CanvasLayer3" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="CanvasLayer3" instance=ExtResource("8_k7acu")]
 
 [node name="MainLoop" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -138,6 +143,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.46693, 0.608525, 2.59738)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.835931, 0.320168, 1.70693)
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 0
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
 material = SubResource("ShaderMaterial_o06y3")
@@ -164,6 +170,7 @@ offset_bottom = 40.0
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" node_paths=PackedStringArray("rect")]
 transparent_bg = true
+handle_input_locally = false
 size = Vector2i(640, 480)
 render_target_clear_mode = 2
 render_target_update_mode = 4

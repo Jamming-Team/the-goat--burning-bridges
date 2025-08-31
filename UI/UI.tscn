@@ -1,0 +1,116 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqhyagoikwsn2"]
+
+[ext_resource type="Texture2D" uid="uid://b8wtbc4mj4erq" path="res://icon.svg" id="1_q0uhn"]
+[ext_resource type="StyleBox" uid="uid://r2krovfprl0k" path="res://UI/PanelStyle.tres" id="2_e707p"]
+[ext_resource type="PackedScene" uid="uid://b4e1rck6pksfg" path="res://UI/Scenes/button.tscn" id="3_q0uhn"]
+
+[sub_resource type="GDScript" id="GDScript_jqf55"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pressed.connect(func(): print(\"pressed\"))
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 110
+theme_override_constants/margin_top = 200
+
+[node name="Button" type="Button" parent="."]
+visible = false
+offset_left = 81.0
+offset_top = 73.0
+offset_right = 193.0
+offset_bottom = 124.0
+size_flags_vertical = 3
+theme_override_constants/outline_size = 7
+text = "PLAY"
+script = SubResource("GDScript_jqf55")
+
+[node name="Button2" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "fghjgfhjjhgjghjhg"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.41598, 0.41598, 0.41598, 1)
+
+[node name="MainView" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainView"]
+layout_mode = 2
+
+[node name="PanelContainer" type="VBoxContainer" parent="MainView/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="TextureRect" type="TextureRect" parent="MainView/MarginContainer/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("1_q0uhn")
+stretch_mode = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MainView/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(300, 250)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_e707p")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainView/MarginContainer/PanelContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainView/MarginContainer/PanelContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" parent="MainView/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
+layout_mode = 2
+
+[node name="Button2" parent="MainView/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
+layout_mode = 2
+text = "GO FSCR"
+
+[node name="Button3" parent="MainView/MarginContainer/PanelContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_q0uhn")]
+layout_mode = 2
+text = "HELP"

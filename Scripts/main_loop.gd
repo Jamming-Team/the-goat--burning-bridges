@@ -143,7 +143,7 @@ func _process(delta):
 	if cur_road.current_bottle != null && _player.cur_player_position_type == cur_road.current_bottle.position_type:
 		cur_road.destroy_current_bottle()
 		_player.health_component.take_bottle_heal()
-		GameSignals.boxes_hit_counter += 1
+		GameSignals.bottles_collected_counter += 1
 		
 		
 
